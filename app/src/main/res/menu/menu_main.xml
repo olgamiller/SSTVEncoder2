@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_pick_picture"
+        android:icon="@android:drawable/ic_menu_gallery"
+        android:title="@string/action_pick_picture"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_take_picture"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="@string/action_take_picture"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_save_wave"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="@string/action_save_wave"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_play"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/action_play"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_stop"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="@string/action_stop"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_rotate"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:title="@string/action_rotate"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_modes"
+        android:title="@string/action_modes"
+        app:showAsAction="ifRoom">
+        <menu/>
+    </item>
+</menu>

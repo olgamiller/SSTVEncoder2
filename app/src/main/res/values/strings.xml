@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SSTV Encoder</string>
+    <string name="action_pick_picture">Pick Picture</string>
+    <string name="action_take_picture">Take Picture</string>
+    <string name="action_save_wave">Save Wave File</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_play">Play</string>
+    <string name="action_rotate">Rotate Image</string>
+    <string name="action_done">Done</string>
+    <string name="action_modes">Modes</string>
+    <string name="action_martin1">Martin 1</string>
+    <string name="action_martin2">Martin 2</string>
+    <string name="action_pd50">PD 50</string>
+    <string name="action_pd90">PD 90</string>
+    <string name="action_pd120">PD 120</string>
+    <string name="action_pd160">PD 160</string>
+    <string name="action_pd180">PD 180</string>
+    <string name="action_pd240">PD 240</string>
+    <string name="action_pd290">PD 290</string>
+    <string name="action_scottie1">Scottie 1</string>
+    <string name="action_scottie2">Scottie 2</string>
+    <string name="action_scottie_dx">Scottie DX</string>
+    <string name="action_robot36">Robot 36</string>
+    <string name="action_robot72">Robot 72</string>
+    <string name="action_wraaseSC2_180">Wraase SC2 180</string>
+    <string name="load_img_err_title">Image loading error</string>
+    <string name="load_img_orientation_err_title">Image orientation error</string>
+    <string name="load_img_err_txt_unsupported">Unsupported content.</string>
+    <string name="btn_send_email">Send Email</string>
+    <string name="btn_ok">OK</string>
+    <string name="email_subject">SSTV Encoder - Bug Report</string>
+    <string name="chooser_title">Send Bug Report:</string>
+    <string name="bold">Bold</string>
+    <string name="italic">Italic</string>
+</resources>

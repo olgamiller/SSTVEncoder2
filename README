@@ -1,0 +1,42 @@
+SSTV Encoder 2
+Copyright 2017 Olga Miller <olga.rgb@gmail.com>
+
+-------------- Description:
+
+This app sends images via Slow Scan Television (SSTV).
+
+Currently supported modes are:
+    Martin Modes:  Martin 1, Martin 2
+    PD Modes:      PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290
+    Scottie Modes: Scottie 1, Scottie 2, Scottie DX
+    Robot Modes:   Robot 36 Color, Robot 72 Color
+    Wraase Modes:  Wraase SC2 180
+
+-------------- Usage:
+
+Tap "Take Picture" or "Pick Picture" menu button or
+use the Share option of any app like Gallery to load an image.
+
+Single tap to add text.
+Single tap on text to edit.
+Long press to move text.
+
+-------------- Remarks:
+
+After clicking on a mode the image will be scaled to that mode's native size.
+To keep the aspect ratio, black borders will be added if necessary.
+Original image can be resend using another mode without reloading.
+
+The mode specifications are taken from the Dayton Paper of JL Barber:
+http://www.barberdsp.com/files/Dayton%20Paper.pdf
+
+Source code for decoding SSTV images can be found here:
+https://github.com/xdsopl/robot36/tree/android
+
+On Google Play you can find the working app:
+SSTV Encoder
+https://play.google.com/store/apps/details?id=om.sstvencoder
+
+For decoding try:
+Robot36 - SSTV Image Decoder
+https://play.google.com/store/apps/details?id=xdsopl.robot36

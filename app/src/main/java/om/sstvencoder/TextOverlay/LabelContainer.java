@@ -24,12 +24,12 @@ import java.io.IOException;
 class LabelContainer {
     private Label mLabel;
     private LabelPainter mPainter;
-    private float mX, mY; // left-bottom corner
+    private Position mPosition; // left-bottom corner
 
     LabelContainer(@NonNull Label label) {
         mLabel = label;
         mPainter = new LabelPainter(label);
-        mX = mY = 0f;
+        mPosition = new Position();
     }
 
     boolean contains(float x, float y) {
@@ -48,13 +48,16 @@ class LabelContainer {
         mPainter.draw(canvas, src, dst);
     }
 
+    void jumpInside(float textSizeFactor, float screenW, float screenH) {
+        mPainter.moveLabelInside(textSizeFactor, screenW, screenH, mPosition);
+    }
+
     void offset(float x, float y) {
-        mX += x;
-        mY += y;
+        mPosition.offset(x, y);
     }
 
     void update(float textSizeFactor, float screenW, float screenH) {
-        mPainter.update(textSizeFactor, screenW, screenH, mX, mY);
+        mPainter.update(textSizeFactor, screenW, screenH, mPosition);
     }
 
     Label getContent() {
@@ -69,8 +72,8 @@ class LabelContainer {
     void write(IWriter writer) throws IOException {
         writer.beginRootObject();
         {
-            writer.write("position_x", mX);
-            writer.write("position_y", mY);
+            writer.write("position_x", mPosition.getX());
+            writer.write("position_y", mPosition.getY());
             writer.beginObject("label");
             {
                 writeLabel(writer, mLabel);
@@ -83,8 +86,7 @@ class LabelContainer {
     void read(IReader reader) throws IOException {
         reader.beginRootObject();
         {
-            mX = reader.readFloat();
-            mY = reader.readFloat();
+            mPosition.set(reader.readFloat(), reader.readFloat());
             reader.beginObject();
             {
                 readLabel(reader, mLabel);

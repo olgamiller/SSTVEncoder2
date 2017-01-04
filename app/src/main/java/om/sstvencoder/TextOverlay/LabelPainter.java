@@ -41,8 +41,7 @@ class LabelPainter {
 
         private InDrawer(float sizeFactor, float x, float y) {
             mSizeFactor = sizeFactor;
-            mX = x;
-            mY = y;
+            setPosition(x, y);
             setPaintSettings(mSizeFactor);
         }
 
@@ -95,6 +94,17 @@ class LabelPainter {
             RectF bounds = new RectF(getTextBounds());
             bounds.offset(mX, mY);
             return bounds;
+        }
+
+        private void setPosition(float x, float y) {
+            mX = x;
+            mY = y;
+        }
+
+        private float getOneLetterSize() {
+            Rect bounds = new Rect();
+            mPaint.getTextBounds("M", 0, 1, bounds);
+            return bounds.width();
         }
 
         private Rect getTextBounds() {
@@ -277,27 +287,59 @@ class LabelPainter {
         mLabel = label;
     }
 
-    void update(float sizeFactor, float screenW, float screenH, float x, float y) {
-        InDrawer inDrawer = new InDrawer(sizeFactor, x, y);
+    void moveLabelInside(float sizeFactor, float screenW, float screenH, Position position) {
+        if (isLabelInside())
+            return;
 
+        float x = position.getX();
+        float y = position.getY();
+        InDrawer inDrawer = new InDrawer(sizeFactor, x, y);
         RectF rect = inDrawer.getBounds();
-        float minSize = 1.5f * sizeFactor;
+        float min = Math.min(getMinSize(sizeFactor), inDrawer.getOneLetterSize());
+
+        if (rect.right < min)  // left out
+            x = min - rect.width();
+        else if (rect.bottom < min) // top out
+            y = min;
+        else if (rect.left > (screenW - min))  // right out
+            x = screenW - min;
+        else if (rect.top > (screenH - min))  // bottom out
+            y = screenH + rect.height() - min;
+
+        inDrawer.setPosition(x, y);
+        mDrawer = inDrawer;
+        position.set(x, y);
+    }
+
+    void update(float sizeFactor, float screenW, float screenH, Position position) {
+        InDrawer inDrawer = new InDrawer(sizeFactor, position.getX(), position.getY());
+        RectF rect = inDrawer.getBounds();
+        float minSize = getMinSize(sizeFactor);
+        float min = Math.min(minSize, inDrawer.getOneLetterSize());
 
         OutDrawer outDrawer = null;
-        if (rect.right < minSize) { // left out
+        if (rect.right < min) { // left out
             outDrawer = new OutDrawer(minSize);
             outDrawer.leftOut(rect, screenH);
-        } else if (rect.bottom < minSize) {// top out
+        } else if (rect.bottom < min) {// top out
             outDrawer = new OutDrawer(minSize);
             outDrawer.topOut(rect, screenW);
-        } else if (rect.left > (screenW - minSize)) { // right out
+        } else if (rect.left > (screenW - min)) { // right out
             outDrawer = new OutDrawer(minSize);
             outDrawer.rightOut(rect, screenW, screenH);
-        } else if (rect.top > (screenH - minSize)) { // bottom out
+        } else if (rect.top > (screenH - min)) { // bottom out
             outDrawer = new OutDrawer(minSize);
             outDrawer.bottomOut(rect, screenW, screenH);
         }
 
         mDrawer = outDrawer == null ? inDrawer : outDrawer;
+    }
+
+    private boolean isLabelInside() {
+        return mDrawer instanceof InDrawer;
+    }
+
+    private float getMinSize(float sizeFactor) {
+        return 1.5f * sizeFactor;
     }
 }

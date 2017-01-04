@@ -92,6 +92,7 @@ public class LabelCollection {
         mLabels.remove(mActiveLabel);
         mPreviousX = x;
         mPreviousY = y;
+        mActiveLabel.jumpInside(mTextSizeFactor, mScreenSize.width(), mScreenSize.height());
         return true;
     }
 

@@ -39,7 +39,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".EditTextActivity"/>
+        <activity
+            android:name=".EditTextActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
 
     </application>
 </manifest>

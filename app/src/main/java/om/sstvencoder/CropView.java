@@ -177,15 +177,18 @@ public class CropView extends ImageView {
         mImageOK = false;
         mOrientation = 0;
         recycle();
-
         invalidate();
     }
 
-    public void setBitmapStream(InputStream stream) throws IOException {
+    public void setBitmap(@NonNull InputStream stream) throws IOException {
         mImageOK = false;
         mOrientation = 0;
         recycle();
+        loadImage(stream);
+        invalidate();
+    }
 
+    private void loadImage(InputStream stream) throws IOException {
         // app6 + exif
         int bufferBytes = 1048576;
         if (!stream.markSupported())
@@ -214,7 +217,6 @@ public class CropView extends ImageView {
 
         mImageOK = true;
         resetInputRect();
-        invalidate();
     }
 
     private void recycle() {

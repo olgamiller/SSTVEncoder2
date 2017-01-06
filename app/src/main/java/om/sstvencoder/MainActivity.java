@@ -42,7 +42,7 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import om.sstvencoder.ModeInterfaces.IModeInfo;
 import om.sstvencoder.TextOverlay.Label;
@@ -86,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
             uri = mSettings.getImageUri();
             verbose = false;
         }
-        if (loadImage(uri, verbose))
-            mSettings.setImageUri(uri);
+        loadImage(uri, verbose);
     }
 
     private Uri getImageUriFromIntent(Intent intent) {
@@ -105,29 +104,39 @@ public class MainActivity extends AppCompatActivity {
 
     // Set verbose to false for any Uri that might have expired (e.g. shared from browser).
     private boolean loadImage(Uri uri, boolean verbose) {
+        ContentResolver resolver = getContentResolver();
+        InputStream stream = null;
         if (uri != null) {
+            mSettings.setImageUri(uri);
             try {
-                ContentResolver resolver = getContentResolver();
-                mCropView.setBitmapStream(resolver.openInputStream(uri));
-                mCropView.rotateImage(getOrientation(resolver, uri));
-                return true;
-            } catch (FileNotFoundException ex) {
+                stream = resolver.openInputStream(uri);
+            } catch (Exception ex) { // e.g. FileNotFoundException, SecurityException
                 if (ex.getCause() instanceof ErrnoException
                         && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES) {
                     requestPermissions();
-                } else if (verbose) {
-                    String s = getString(R.string.load_img_err_title) + ": \n" + ex.getMessage();
-                    Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+                    return false;
                 }
-            } catch (Exception ex) {
-                if (verbose) {
-                    String s = Utility.createMessage(ex) + "\n\n" + uri;
-                    showErrorMessage(getString(R.string.load_img_err_title), ex.getMessage(), s);
-                }
+                showFileNotLoadedMessage(ex, verbose);
             }
         }
-        mCropView.setNoBitmap();
-        return false;
+        if (stream == null) {
+            mCropView.setNoBitmap();
+            mSettings.setImageUri(null);
+            return false;
+        }
+        return loadImage(stream, resolver, uri);
+    }
+
+    private boolean loadImage(InputStream stream, ContentResolver resolver, Uri uri) {
+        try {
+            mCropView.setBitmap(stream);
+        } catch (Exception ex) {
+            String s = Utility.createMessage(ex) + "\n\n" + uri;
+            showErrorMessage(getString(R.string.load_img_err_title), ex.getMessage(), s);
+            return false;
+        }
+        mCropView.rotateImage(getOrientation(resolver, uri));
+        return true;
     }
 
     private boolean isIntentActionValid(String action) {
@@ -145,6 +154,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+    }
+
+    private void showFileNotLoadedMessage(Exception ex, boolean verbose) {
+        String s;
+        if (verbose)
+            s = getString(R.string.load_img_err_title) + ": \n" + ex.getMessage();
+        else
+            s = getString(R.string.message_prev_img_not_loaded);
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
     private void showErrorMessage(final String title, final String shortText, final String longText) {
@@ -280,18 +298,13 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     Uri uri = Uri.fromFile(mFile);
-                    if (loadImage(uri, true)) {
-                        mSettings.setImageUri(uri);
+                    if (loadImage(uri, true))
                         addImageToGallery(uri);
-                    }
                 }
                 break;
             case REQUEST_PICK_IMAGE:
-                if (resultCode == RESULT_OK && data != null) {
-                    Uri uri = data.getData();
-                    if (loadImage(uri, true))
-                        mSettings.setImageUri(uri);
-                }
+                if (resultCode == RESULT_OK && data != null)
+                    loadImage(data.getData(), true);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);

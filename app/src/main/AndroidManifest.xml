@@ -3,8 +3,7 @@
           package="om.sstvencoder">
 
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"/>
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false"/>

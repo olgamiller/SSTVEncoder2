@@ -27,6 +27,7 @@
     <string name="load_img_err_title">Image loading error</string>
     <string name="load_img_orientation_err_title">Image orientation error</string>
     <string name="load_img_err_txt_unsupported">Unsupported content.</string>
+    <string name="message_prev_img_not_loaded">Previous image could not be loaded.</string>
     <string name="btn_send_email">Send Email</string>
     <string name="btn_ok">OK</string>
     <string name="email_subject">SSTV Encoder - Bug Report</string>

@@ -56,7 +56,7 @@ public final class ModeFactory {
 
             if (bitmap.getWidth() == size.width() && bitmap.getHeight() == size.height()) {
                 try {
-                    Constructor constructor = modeClass.getConstructor(Bitmap.class, IOutput.class);
+                    Constructor constructor = modeClass.getDeclaredConstructor(Bitmap.class, IOutput.class);
                     mode = (Mode) constructor.newInstance(bitmap, output);
                 } catch (Exception ignore) {
                 }

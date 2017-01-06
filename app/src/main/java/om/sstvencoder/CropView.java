@@ -160,6 +160,8 @@ public class CropView extends ImageView {
     }
 
     public void rotateImage(int orientation) {
+        if (!mImageOK)
+            return;
         mOrientation += orientation;
         mOrientation %= 360;
         if (orientation == 90 || orientation == 270) {
@@ -167,10 +169,8 @@ public class CropView extends ImageView {
             mImageWidth = mImageHeight;
             mImageHeight = tmp;
         }
-        if (mImageOK) {
-            resetInputRect();
-            invalidate();
-        }
+        resetInputRect();
+        invalidate();
     }
 
     public void setNoBitmap() {
@@ -350,18 +350,15 @@ public class CropView extends ImageView {
     }
 
     public Bitmap getBitmap() {
-        if (!mImageOK)
-            return null;
-
         Bitmap result = Bitmap.createBitmap(mModeSize.width(), mModeSize.height(), Bitmap.Config.ARGB_8888);
-        mImageDrawRect.set(getIntRect(mInputRect));
-        adjustCanvasAndImageRect(mModeSize.width(), mModeSize.height());
-
         Canvas canvas = new Canvas(result);
         canvas.drawColor(Color.BLACK);
-        drawBitmap(canvas);
+        if (mImageOK) {
+            mImageDrawRect.set(getIntRect(mInputRect));
+            adjustCanvasAndImageRect(mModeSize.width(), mModeSize.height());
+            drawBitmap(canvas);
+        }
         mLabelCollection.draw(canvas, mOutputRect, new Rect(0, 0, mModeSize.width(), mModeSize.height()));
-
         return result;
     }
 

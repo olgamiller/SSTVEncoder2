@@ -121,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
                 showFileNotLoadedMessage(ex, verbose);
             }
         }
-        if (stream == null) {
+        if (stream == null || !loadImage(stream, resolver, uri)) {
             mCropView.setNoBitmap();
             mSettings.setImageUri(null);
             return false;
         }
-        return loadImage(stream, resolver, uri);
+        return true;
     }
 
     private boolean loadImage(InputStream stream, ContentResolver resolver, Uri uri) {

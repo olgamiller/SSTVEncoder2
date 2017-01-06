@@ -49,8 +49,9 @@ import om.sstvencoder.TextOverlay.Label;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLASS_NAME = "ClassName";
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_PERMISSION = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
+    private static final int REQUEST_IMAGE_CAPTURE = 3;
     private Settings mSettings;
     private TextOverlayTemplate mTextOverlayTemplate;
     private CropView mCropView;
@@ -151,9 +152,20 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermissions() {
         if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT)
             return;
+        int permissionState = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionState != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
+        }
+    }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            loadImage(mSettings.getImageUri(), false);
+        }
     }
 
     private void showFileNotLoadedMessage(Exception ex, boolean verbose) {

@@ -49,9 +49,11 @@ import om.sstvencoder.TextOverlay.Label;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLASS_NAME = "ClassName";
-    private static final int REQUEST_PERMISSION = 1;
-    private static final int REQUEST_PICK_IMAGE = 2;
-    private static final int REQUEST_IMAGE_CAPTURE = 3;
+    private static final int REQUEST_LOAD_IMAGE_PERMISSION = 1;
+    private static final int REQUEST_SAVE_WAVE_PERMISSION = 2;
+    private static final int REQUEST_IMAGE_CAPTURE_PERMISSION = 3;
+    private static final int REQUEST_PICK_IMAGE = 11;
+    private static final int REQUEST_IMAGE_CAPTURE = 12;
     private Settings mSettings;
     private TextOverlayTemplate mTextOverlayTemplate;
     private CropView mCropView;
@@ -112,9 +114,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 stream = resolver.openInputStream(uri);
             } catch (Exception ex) { // e.g. FileNotFoundException, SecurityException
-                if (ex.getCause() instanceof ErrnoException
-                        && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES) {
-                    requestPermissions();
+                if (isPermissionException(ex) && needsRequestReadPermission()) {
+                    requestReadPermission(REQUEST_LOAD_IMAGE_PERMISSION);
                     return false;
                 }
                 showFileNotLoadedMessage(ex, verbose);
@@ -148,24 +149,70 @@ public class MainActivity extends AppCompatActivity {
         return type != null && type.startsWith("image/");
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean isPermissionException(Exception ex) {
+        return ex.getCause() instanceof ErrnoException
+                && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void requestPermissions() {
-        if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT)
-            return;
-        int permissionState = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionState != PackageManager.PERMISSION_GRANTED) {
-            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
-        }
+    private boolean needsRequestReadPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            return false;
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        int state = ContextCompat.checkSelfPermission(this, permission);
+        return state != PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private boolean needsRequestWritePermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            return false;
+        String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int state = ContextCompat.checkSelfPermission(this, permission);
+        return state != PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void requestReadPermission(int requestCode) {
+        String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permissions, requestCode);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void requestWritePermission(int requestCode) {
+        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permissions, requestCode);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSION
-                && grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            loadImage(mSettings.getImageUri(), false);
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOAD_IMAGE_PERMISSION:
+                if (permissionGranted(grantResults))
+                    loadImage(mSettings.getImageUri(), false);
+                else {
+                    mCropView.setNoBitmap();
+                    mSettings.setImageUri(null);
+                }
+                break;
+            case REQUEST_IMAGE_CAPTURE_PERMISSION:
+                if (permissionGranted(grantResults))
+                    dispatchTakePictureIntent();
+                break;
+            case REQUEST_SAVE_WAVE_PERMISSION:
+                if (permissionGranted(grantResults))
+                    save();
+                break;
+            default:
+                break;
         }
+    }
+
+    private boolean permissionGranted(@NonNull int[] grantResults) {
+        return grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     }
 
     private void showFileNotLoadedMessage(Exception ex, boolean verbose) {
@@ -243,10 +290,13 @@ public class MainActivity extends AppCompatActivity {
                 dispatchPickPictureIntent();
                 return true;
             case R.id.action_take_picture:
-                dispatchTakePictureIntent();
+                takePicture();
                 return true;
             case R.id.action_save_wave:
-                save();
+                if (needsRequestWritePermission())
+                    requestWritePermission(REQUEST_SAVE_WAVE_PERMISSION);
+                else
+                    save();
                 return true;
             case R.id.action_play:
                 play();
@@ -270,6 +320,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void takePicture() {
+        if (!hasCamera()) {
+            Toast.makeText(this, getString(R.string.message_no_camera), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (needsRequestWritePermission())
+            requestWritePermission(REQUEST_IMAGE_CAPTURE_PERMISSION);
+        else
+            dispatchTakePictureIntent();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private boolean hasCamera() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    }
+
     public void startEditTextActivity(@NonNull Label label) {
         Intent intent = new Intent(this, EditTextActivity.class);
         intent.putExtra(EditTextActivity.EXTRA, label);
@@ -277,10 +343,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent() {
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            Toast.makeText(this, "Device has no camera.", Toast.LENGTH_LONG).show();
-            return;
-        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             mFile = Utility.createImageFilePath();

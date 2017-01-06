@@ -413,6 +413,7 @@ public class CropView extends ImageView {
 
     public void editLabelEnd(Label label) {
         mLabelCollection.editLabelEnd(label);
+        invalidate();
     }
 
     public LabelCollection getLabels() {

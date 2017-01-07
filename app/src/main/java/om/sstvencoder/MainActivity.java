@@ -158,18 +158,16 @@ public class MainActivity extends AppCompatActivity {
                 && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private boolean needsRequestReadPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             return false;
         String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
         int state = ContextCompat.checkSelfPermission(this, permission);
         return state != PackageManager.PERMISSION_GRANTED;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private boolean needsRequestWritePermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             return false;
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         int state = ContextCompat.checkSelfPermission(this, permission);

@@ -16,12 +16,16 @@ limitations under the License.
 package om.sstvencoder;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -87,18 +91,23 @@ public final class Utility {
         return values;
     }
 
-    static File createImageFilePath() {
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+    static Uri createImageUri(Context context) {
         if (!isExternalStorageWritable())
             return null;
-        return new File(dir, createFileName() + ".jpg");
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File file = new File(dir, createFileName() + ".jpg");
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+            // API level 24 and higher: FileUriExposedException
+            return Uri.fromFile(file); // file:// URI
+        // API level 15: Camera crash
+        return FileProvider.getUriForFile(context, "om.sstvencoder", file); // content:// URI
     }
 
     static File createWaveFilePath() {
-        // sdcard/Music
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         if (!isExternalStorageWritable())
             return null;
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         return new File(dir, createFileName() + ".wav");
     }
 

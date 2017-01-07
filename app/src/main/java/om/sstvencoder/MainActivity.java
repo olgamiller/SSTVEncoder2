@@ -32,7 +32,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
 import android.system.OsConstants;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private TextOverlayTemplate mTextOverlayTemplate;
     private CropView mCropView;
     private Encoder mEncoder;
-    private File mFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,9 +329,10 @@ public class MainActivity extends AppCompatActivity {
             dispatchTakePictureIntent();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private boolean hasCamera() {
-        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
+            return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     public void startEditTextActivity(@NonNull Label label) {
@@ -345,9 +344,9 @@ public class MainActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            mFile = Utility.createImageFilePath();
-            if (mFile != null) {
-                Uri uri = FileProvider.getUriForFile(this, "om.sstvencoder", mFile);
+            Uri uri = Utility.createImageUri(this);
+            if (uri != null) {
+                mSettings.setImageUri(uri);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
             }
@@ -371,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
-                    Uri uri = Uri.fromFile(mFile);
+                    Uri uri = mSettings.getImageUri();
                     if (loadImage(uri, true))
                         addImageToGallery(uri);
                 }

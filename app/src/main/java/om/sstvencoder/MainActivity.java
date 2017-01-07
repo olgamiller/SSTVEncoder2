@@ -30,6 +30,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 stream = resolver.openInputStream(uri);
             } catch (Exception ex) { // e.g. FileNotFoundException, SecurityException
-                if (isPermissionException(ex) && needsRequestReadPermission()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isPermissionException(ex)
+                        && needsRequestReadPermission()) {
                     requestReadPermission(REQUEST_LOAD_IMAGE_PERMISSION);
                     return false;
                 }
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         return type != null && type.startsWith("image/");
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean isPermissionException(Exception ex) {
         return ex.getCause() instanceof ErrnoException
                 && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES;

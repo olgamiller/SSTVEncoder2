@@ -130,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean loadImage(InputStream stream, ContentResolver resolver, Uri uri) {
         try {
             mCropView.setBitmap(stream);
+        } catch (IllegalArgumentException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
         } catch (Exception ex) {
             String s = Utility.createMessage(ex) + "\n\n" + uri;
             showErrorMessage(getString(R.string.load_img_err_title), ex.getMessage(), s);

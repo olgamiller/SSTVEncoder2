@@ -180,7 +180,7 @@ public class CropView extends ImageView {
         invalidate();
     }
 
-    public void setBitmap(@NonNull InputStream stream) throws IOException {
+    public void setBitmap(@NonNull InputStream stream) throws IOException, IllegalArgumentException {
         mImageOK = false;
         mOrientation = 0;
         recycle();
@@ -188,7 +188,7 @@ public class CropView extends ImageView {
         invalidate();
     }
 
-    private void loadImage(InputStream stream) throws IOException {
+    private void loadImage(InputStream stream) throws IOException, IllegalArgumentException {
         // app6 + exif
         int bufferBytes = 1048576;
         if (!stream.markSupported())
@@ -212,7 +212,11 @@ public class CropView extends ImageView {
 
         if (mCacheBitmap == null && mRegionDecoder == null) {
             String size = options.outWidth + "x" + options.outHeight;
-            throw new IOException("Stream could not be decoded. Image size: " + size);
+            String message = "Stream could not be decoded. Image size: " + size;
+            if (mImageWidth <= 0 || mImageHeight <= 0)
+                throw new IllegalArgumentException(message);
+            else
+                throw new IOException(message);
         }
 
         mImageOK = true;

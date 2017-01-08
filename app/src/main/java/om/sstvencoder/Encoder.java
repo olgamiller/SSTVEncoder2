@@ -31,10 +31,12 @@ import om.sstvencoder.Output.OutputFactory;
 class Encoder {
     private final Thread mThread;
     private final List<IMode> mQueue;
+    private final ProgressBarWrapper mProgressBar;
     private boolean mQuit, mStop;
     private Class<?> mModeClass;
 
-    Encoder() {
+    Encoder(ProgressBarWrapper progressBar) {
+        mProgressBar = progressBar;
         mQueue = new LinkedList<>();
         mQuit = false;
         mStop = false;
@@ -59,14 +61,18 @@ class Encoder {
                         mode = mQueue.remove(0);
                     }
                     mode.init();
+                    mProgressBar.begin(mode.getProcessCount());
 
                     while (mode.process()) {
+                        mProgressBar.step();
+
                         synchronized (this) {
                             if (mQuit || mStop)
                                 break;
                         }
                     }
                     mode.finish(mStop);
+                    mProgressBar.end();
                 }
             }
         };

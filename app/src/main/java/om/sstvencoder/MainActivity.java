@@ -39,6 +39,7 @@ import android.system.OsConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCropView = (CropView) findViewById(R.id.cropView);
-        mEncoder = new Encoder();
+        mEncoder = new Encoder(new ProgressBarWrapper((ProgressBar) findViewById(R.id.progressBar)));
         IModeInfo mode = mEncoder.getModeInfo();
         mCropView.setModeSize(mode.getModeSize());
         setTitle(mode.getModeName());

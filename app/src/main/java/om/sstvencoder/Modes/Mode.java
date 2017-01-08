@@ -34,6 +34,7 @@ abstract class Mode implements IMode {
         mBitmap = bitmap;
     }
 
+    @Override
     public void init() {
         mRunningIntegral = 0.0;
         mLine = 0;
@@ -41,6 +42,12 @@ abstract class Mode implements IMode {
         writeCalibrationHeader();
     }
 
+    @Override
+    public int getProcessCount() {
+        return mBitmap.getHeight();
+    }
+
+    @Override
     public boolean process() {
         if (mLine >= mBitmap.getHeight())
             return false;
@@ -51,6 +58,7 @@ abstract class Mode implements IMode {
     }
 
     // Note that also Bitmap will be recycled here
+    @Override
     public void finish(boolean cancel) {
         mOutput.finish(cancel);
         destroyBitmap();

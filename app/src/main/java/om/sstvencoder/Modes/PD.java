@@ -51,6 +51,11 @@ abstract class PD extends Mode {
         return mBitmap.getHeight() / 2 * lineSamples;
     }
 
+    @Override
+    public int getProcessCount() {
+        return mBitmap.getHeight() / 2;
+    }
+
     protected void writeEncodedLine() {
         addSyncPulse();
         addPorch();

@@ -18,6 +18,8 @@ package om.sstvencoder.ModeInterfaces;
 public interface IMode {
     void init();
 
+    int getProcessCount();
+
     boolean process();
 
     void finish(boolean cancel);

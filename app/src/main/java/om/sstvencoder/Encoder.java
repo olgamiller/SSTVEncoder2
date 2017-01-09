@@ -29,14 +29,19 @@ import om.sstvencoder.Output.OutputFactory;
 
 // Creates IMode instance
 class Encoder {
+    private final MainActivityMessenger mMessenger;
     private final Thread mThread;
+    private Thread mSaveWaveThread;
     private final List<IMode> mQueue;
-    private final ProgressBarWrapper mProgressBar;
+    private final ProgressBarWrapper mProgressBar, mProgressBar2;
     private boolean mQuit, mStop;
     private Class<?> mModeClass;
 
-    Encoder(ProgressBarWrapper progressBar) {
+    Encoder(MainActivityMessenger messenger,
+            ProgressBarWrapper progressBar, ProgressBarWrapper progressBar2) {
+        mMessenger = messenger;
         mProgressBar = progressBar;
+        mProgressBar2 = progressBar2;
         mQueue = new LinkedList<>();
         mQuit = false;
         mStop = false;
@@ -61,7 +66,7 @@ class Encoder {
                         mode = mQueue.remove(0);
                     }
                     mode.init();
-                    mProgressBar.begin(mode.getProcessCount());
+                    mProgressBar.begin(mode.getProcessCount(), "Sending...");
 
                     while (mode.process()) {
                         mProgressBar.step();
@@ -103,19 +108,37 @@ class Encoder {
             enqueue(mode);
     }
 
-    boolean save(Bitmap bitmap, File file) {
+    void save(Bitmap bitmap, File file) {
+        if (mSaveWaveThread != null && mSaveWaveThread.isAlive())
+            return;
         IOutput output = OutputFactory.createOutputForSavingAsWave(file);
         IMode mode = ModeFactory.CreateMode(mModeClass, bitmap, output);
-        if (mode != null) {
-            mode.init();
+        if (mode != null)
+            save(mode, file);
+    }
 
-            while (mode.process()) {
-                if (mQuit)
-                    break;
+    private void save(final IMode mode, final File file) {
+        mSaveWaveThread = new Thread() {
+            @Override
+            public void run() {
+                mode.init();
+                mProgressBar2.begin(mode.getProcessCount(), file.getName() + " saving...");
+
+                while (mode.process()) {
+                    mProgressBar2.step();
+
+                    synchronized (this) {
+                        if (mQuit)
+                            break;
+                    }
+                }
+                mode.finish(mQuit);
+                mProgressBar2.end();
+                if (!mQuit)
+                    mMessenger.carrySaveAsWaveIsDoneMessage(file);
             }
-            mode.finish(mQuit);
-        }
-        return !mQuit;
+        };
+        mSaveWaveThread.start();
     }
 
     void stop() {

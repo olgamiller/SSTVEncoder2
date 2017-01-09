@@ -18,37 +18,45 @@ package om.sstvencoder;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 class ProgressBarWrapper {
     private final ProgressBar mProgressBar;
+    private final TextView mText;
     private final Handler mHandler;
     private final int mSteps;
     private int mLastStep;
     private int mPosition, mMaxPosition;
 
-    ProgressBarWrapper(ProgressBar progressBar) {
+    ProgressBarWrapper(ProgressBar progressBar, TextView text) {
         mProgressBar = progressBar;
-        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mText = text;
+        mText.setVisibility(View.GONE);
         mHandler = new Handler();
         mSteps = 10;
     }
 
-    private void startProgressBar(final int max) {
+    private void startProgressBar(final int max, final String text) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mProgressBar.setMax(max);
                 mProgressBar.setProgress(0);
                 mProgressBar.setVisibility(View.VISIBLE);
+                if (text != null) {
+                    mText.setText(text);
+                    mText.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
 
-    private void stepProgressBar(final int state) {
+    private void stepProgressBar(final int progress) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mProgressBar.setProgress(state);
+                mProgressBar.setProgress(progress);
             }
         });
     }
@@ -57,16 +65,17 @@ class ProgressBarWrapper {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.GONE);
+                mText.setVisibility(View.GONE);
             }
         });
     }
 
-    void begin(int max) {
+    void begin(int max, String text) {
         mLastStep = 0;
         mPosition = 0;
         mMaxPosition = max;
-        startProgressBar(mSteps);
+        startProgressBar(mSteps, text);
     }
 
     void step() {

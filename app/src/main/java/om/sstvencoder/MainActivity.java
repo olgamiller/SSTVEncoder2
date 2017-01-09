@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCropView = (CropView) findViewById(R.id.cropView);
-        mEncoder = new Encoder(new ProgressBarWrapper((ProgressBar) findViewById(R.id.progressBar)));
+        mEncoder = new Encoder(new MainActivityMessenger(this), getProgressBar(), getProgressBar2());
         IModeInfo mode = mEncoder.getModeInfo();
         mCropView.setModeSize(mode.getModeSize());
         setTitle(mode.getModeName());
@@ -74,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
         mTextOverlayTemplate = new TextOverlayTemplate();
         mTextOverlayTemplate.load(mCropView.getLabels(), mSettings.getTextOverlayFile());
         loadImage(getIntent());
+    }
+
+    private ProgressBarWrapper getProgressBar() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        TextView progressBarText = (TextView) findViewById(R.id.progressBarText);
+        return new ProgressBarWrapper(progressBar, progressBarText);
+    }
+
+    private ProgressBarWrapper getProgressBar2() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        TextView progressBarText = (TextView) findViewById(R.id.progressBarText2);
+        return new ProgressBarWrapper(progressBar, progressBarText);
     }
 
     @Override
@@ -401,12 +414,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void save() {
         File file = Utility.createWaveFilePath();
-        if (mEncoder.save(mCropView.getBitmap(), file)) {
-            ContentValues values = Utility.getWavContentValues(file);
-            Uri uri = MediaStore.Audio.Media.getContentUriForPath(file.getAbsolutePath());
-            getContentResolver().insert(uri, values);
-            Toast.makeText(this, file.getName() + " saved.", Toast.LENGTH_SHORT).show();
-        }
+        mEncoder.save(mCropView.getBitmap(), file);
+    }
+
+    public void completeSaving(File file) {
+        addFileToContentResolver(file);
+    }
+
+    private void addFileToContentResolver(File file) {
+        ContentValues values = Utility.getWavContentValues(file);
+        Uri uri = MediaStore.Audio.Media.getContentUriForPath(file.getAbsolutePath());
+        getContentResolver().insert(uri, values);
     }
 
     @Override

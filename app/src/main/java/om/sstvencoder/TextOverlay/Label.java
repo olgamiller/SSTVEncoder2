@@ -20,6 +20,7 @@ import android.graphics.Color;
 import java.io.Serializable;
 
 public class Label implements Serializable {
+    private final static int mVersion = 1;
     private String mText;
     private float mTextSize;
     private String mFamilyName;
@@ -34,6 +35,10 @@ public class Label implements Serializable {
         mItalic = false;
         mForeColor = Color.BLACK;
         mBackColor = Color.TRANSPARENT;
+    }
+
+    public int getVersion() {
+        return mVersion;
     }
 
     public String getText() {

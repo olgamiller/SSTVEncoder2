@@ -97,6 +97,7 @@ class LabelContainer {
     }
 
     private void writeLabel(IWriter writer, Label label) throws IOException {
+        writer.write("version", label.getVersion());
         writer.write("text", label.getText());
         writer.write("text_size", label.getTextSize());
         writer.write("family_name", label.getFamilyName());
@@ -107,6 +108,7 @@ class LabelContainer {
     }
 
     private void readLabel(IReader reader, Label label) throws IOException {
+        reader.readInt();
         label.setText(reader.readString());
         label.setTextSize(reader.readFloat());
         label.setFamilyName(reader.readString());

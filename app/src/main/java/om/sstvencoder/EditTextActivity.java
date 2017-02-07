@@ -28,6 +28,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.List;
+
 import om.sstvencoder.ColorPalette.ColorPaletteView;
 import om.sstvencoder.TextOverlay.Label;
 
@@ -37,6 +39,10 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
     private EditText mEditText;
     private ColorPaletteView mColorPaletteView;
     private float mTextSize;
+    private FontFamilySet mFontFamilySet;
+    private FontFamilySet.FontFamily mSelectedFontFamily;
+    private List<String> mFontFamilyNameList;
+    private CheckBox mEditItalic, mEditBold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,8 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_edit_text);
         mEditText = (EditText) findViewById(R.id.edit_text);
         mColorPaletteView = (ColorPaletteView) findViewById(R.id.edit_color);
+        mEditBold = (CheckBox) findViewById(R.id.edit_bold);
+        mEditItalic = (CheckBox) findViewById(R.id.edit_italic);
     }
 
     @Override
@@ -51,19 +59,33 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         super.onStart();
         Label label = (Label) getIntent().getSerializableExtra(EXTRA);
         mEditText.setText(label.getText());
-        mTextSize = label.getTextSize();
-        initTextSizeSpinner(textSizeToPosition(mTextSize));
-        ((CheckBox) findViewById(R.id.edit_italic)).setChecked(label.getItalic());
-        ((CheckBox) findViewById(R.id.edit_bold)).setChecked(label.getBold());
+        initTextSizeSpinner(label.getTextSize());
+        mEditBold.setChecked(label.getBold());
+        mEditItalic.setChecked(label.getItalic());
         mColorPaletteView.setColor(label.getForeColor());
+        initFontFamilySpinner(label.getFamilyName());
+        updateBoldAndItalic();
     }
 
-    private void initTextSizeSpinner(int position) {
+    private void initFontFamilySpinner(String familyName) {
+        Spinner editFontFamily = (Spinner) findViewById(R.id.edit_font_family);
+        editFontFamily.setOnItemSelectedListener(this);
+        mFontFamilySet = new FontFamilySet();
+        mSelectedFontFamily = mFontFamilySet.getFontFamily(familyName);
+        mFontFamilyNameList = mFontFamilySet.getFontFamilyDisplayNameList();
+        editFontFamily.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, mFontFamilyNameList));
+        editFontFamily.setSelection(mFontFamilyNameList.indexOf(mSelectedFontFamily.displayName));
+    }
+
+    private void initTextSizeSpinner(float textSize) {
+        mTextSize = textSize;
         Spinner editTextSize = (Spinner) findViewById(R.id.edit_text_size);
         editTextSize.setOnItemSelectedListener(this);
         String[] textSizeList = new String[]{"Small", "Normal", "Large", "Huge"};
-        editTextSize.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, textSizeList));
-        editTextSize.setSelection(position);
+        editTextSize.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, textSizeList));
+        editTextSize.setSelection(textSizeToPosition(textSize));
     }
 
     private int textSizeToPosition(float textSize) {
@@ -79,7 +101,28 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mTextSize = positionToTextSize(position);
+        switch (parent.getId()) {
+            case R.id.edit_text_size:
+                mTextSize = positionToTextSize(position);
+                break;
+            case R.id.edit_font_family:
+                String displayName = mFontFamilyNameList.get(position);
+                mSelectedFontFamily = mFontFamilySet.getFontFamilyFromDisplayName(displayName);
+                updateBoldAndItalic();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updateBoldAndItalic() {
+        mEditBold.setEnabled(mSelectedFontFamily.bold);
+        if (!mEditBold.isEnabled())
+            mEditBold.setChecked(false);
+
+        mEditItalic.setEnabled(mSelectedFontFamily.italic);
+        if (!mEditItalic.isEnabled())
+            mEditItalic.setChecked(false);
     }
 
     @Override
@@ -114,8 +157,9 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         Label label = new Label();
         label.setText(mEditText.getText().toString());
         label.setTextSize(mTextSize);
-        label.setItalic(((CheckBox) findViewById(R.id.edit_italic)).isChecked());
-        label.setBold(((CheckBox) findViewById(R.id.edit_bold)).isChecked());
+        label.setFamilyName(mSelectedFontFamily.name);
+        label.setItalic(mEditItalic.isChecked());
+        label.setBold(mEditBold.isChecked());
         label.setForeColor(mColorPaletteView.getColor());
         return label;
     }

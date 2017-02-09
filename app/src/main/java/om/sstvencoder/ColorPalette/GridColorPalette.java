@@ -40,20 +40,21 @@ class GridColorPalette implements IColorPalette {
     private final static float STROKE_WIDTH_FACTOR = 6f;
     private final static float BOX_SIZE_DP = 96f;
     private final static float SPACE_FACTOR = 6f;
-    private final static float CORNER_RADIUS = 6f;
     private final int[] mColorList;
     private final Paint mPaint;
     private final RectF mSelectedBounds;
     private final float mDisplayMetricsDensity;
     private int mColumns, mRows;
     private float mWidth, mHeight;
-    private float mBoxSize, mSpace, mStrokeWidth;
+    private float mBoxSize, mSpace, mStrokeWidth, mCornerRadius;
     private int mSelectedColorIndex;
     private boolean mValid;
 
     GridColorPalette(int[] colorList, float displayMetricsDensity) {
+        final float CORNER_RADIUS = 3f;
         mColorList = colorList;
         mDisplayMetricsDensity = displayMetricsDensity;
+        mCornerRadius = CORNER_RADIUS * mDisplayMetricsDensity;
         mPaint = new Paint();
         setPaintStyleForBox();
         mSelectedBounds = new RectF();
@@ -115,7 +116,7 @@ class GridColorPalette implements IColorPalette {
         for (int color : mColorList) {
             RectF rect = new RectF(x, y, x + mBoxSize, y + mBoxSize);
             mPaint.setColor(color);
-            canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, mPaint);
+            canvas.drawRoundRect(rect, mCornerRadius, mCornerRadius, mPaint);
             x += mBoxSize + mSpace;
             if (x > maxX) {
                 x = mSpace;
@@ -134,7 +135,7 @@ class GridColorPalette implements IColorPalette {
         RectF rect = new RectF(l - padding, t - padding, r + padding, b + padding);
         Paint.Style paintStyle = mPaint.getStyle();
         setPaintStyleForSelectedBox();
-        canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, mPaint);
+        canvas.drawRoundRect(rect, mCornerRadius, mCornerRadius, mPaint);
         mPaint.setStyle(paintStyle);
     }
 

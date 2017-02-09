@@ -121,7 +121,7 @@ public class CropView extends ImageView {
         mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
         mRectPaint = new Paint();
         mRectPaint.setStyle(Paint.Style.STROKE);
-        mRectPaint.setStrokeWidth(2);
+        mRectPaint.setStrokeWidth(1f);
         mBorderPaint = new Paint();
         mBorderPaint.setColor(Color.BLACK);
 
@@ -335,9 +335,9 @@ public class CropView extends ImageView {
         mRectPaint.setColor(Color.BLUE);
         canvas.drawRect(mOutputRect, mRectPaint);
         mRectPaint.setColor(Color.GREEN);
-        drawRectInset(canvas, mOutputRect, -2);
+        drawRectInset(canvas, mOutputRect, -1);
         mRectPaint.setColor(Color.RED);
-        drawRectInset(canvas, mOutputRect, -4);
+        drawRectInset(canvas, mOutputRect, -2);
     }
 
     private void drawRectInset(Canvas canvas, Rect rect, int inset) {

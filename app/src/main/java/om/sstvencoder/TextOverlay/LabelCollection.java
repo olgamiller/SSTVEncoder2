@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import om.sstvencoder.Utility;
-
 public class LabelCollection {
     private class Size {
         private float mW, mH;
@@ -55,7 +53,7 @@ public class LabelCollection {
         mPreviousY = 0f;
     }
 
-    public void update(float w, float h) {
+    public void update(float w, float h, float textSizeFactor) {
         if (mScreenSize != null) {
             float x = (w - mScreenSize.width()) / 2f;
             float y = (h - mScreenSize.height()) / 2f;
@@ -63,14 +61,9 @@ public class LabelCollection {
                 label.offset(x, y);
         }
         mScreenSize = new Size(w, h);
-        mTextSizeFactor = getTextSizeFactor(w, h);
+        mTextSizeFactor = textSizeFactor;
         for (LabelContainer label : mLabels)
             label.update(mTextSizeFactor, w, h);
-    }
-
-    private float getTextSizeFactor(float w, float h) {
-        Rect bounds = Utility.getEmbeddedRect((int) w, (int) h, 320, 240);
-        return 0.1f * bounds.height();
     }
 
     public void draw(Canvas canvas) {
@@ -154,6 +147,7 @@ public class LabelCollection {
         {
             writer.write("width", mScreenSize.width());
             writer.write("height", mScreenSize.height());
+            writer.write("factor", mTextSizeFactor);
             writer.beginArray("labels");
             {
                 for (LabelContainer label : mLabels)
@@ -169,6 +163,7 @@ public class LabelCollection {
         {
             float w = reader.readFloat();
             float h = reader.readFloat();
+            float textSizeFactor = reader.readFloat();
             reader.beginArray();
             {
                 while (reader.hasNext()) {
@@ -178,7 +173,7 @@ public class LabelCollection {
                 }
             }
             reader.endArray();
-            update(w, h);
+            update(w, h, textSizeFactor);
         }
         reader.endObject();
     }

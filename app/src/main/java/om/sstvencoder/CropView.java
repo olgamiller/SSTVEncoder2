@@ -288,7 +288,7 @@ public class CropView extends ImageView {
         super.onSizeChanged(w, h, old_w, old_h);
         if (mModeSize != null)
             mOutputRect = Utility.getEmbeddedRect(w, h, mModeSize.width(), mModeSize.height());
-        mLabelCollection.update(w, h);
+        mLabelCollection.update(w, h, Utility.getTextSizeFactor(w, h));
     }
 
     @Override

@@ -50,6 +50,10 @@ public final class Utility {
         return rect;
     }
 
+    static float getTextSizeFactor(int w, int h) {
+        return 0.1f * (Utility.getEmbeddedRect(w, h, 320, 240).height());
+    }
+
     static String createMessage(Exception ex) {
         String message = ex.getMessage() + "\n";
         for (StackTraceElement el : ex.getStackTrace())

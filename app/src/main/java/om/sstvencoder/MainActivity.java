@@ -67,13 +67,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mCropView = (CropView) findViewById(R.id.cropView);
         mEncoder = new Encoder(new MainActivityMessenger(this), getProgressBar(), getProgressBar2());
+
+        mSettings = new Settings(this);
+        mSettings.load();
+
+        mTextOverlayTemplate = new TextOverlayTemplate();
+        mTextOverlayTemplate.load(mCropView.getLabels(), mSettings.getTextOverlayFile());
+
         IModeInfo mode = mEncoder.getModeInfo();
         mCropView.setModeSize(mode.getModeSize());
         setTitle(mode.getModeName());
-        mSettings = new Settings(this);
-        mSettings.load();
-        mTextOverlayTemplate = new TextOverlayTemplate();
-        mTextOverlayTemplate.load(mCropView.getLabels(), mSettings.getTextOverlayFile());
         loadImage(getIntent());
     }
 

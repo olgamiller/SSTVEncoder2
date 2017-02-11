@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
         mTextOverlayTemplate = new TextOverlayTemplate();
         mTextOverlayTemplate.load(mCropView.getLabels(), mSettings.getTextOverlayFile());
 
-        IModeInfo mode = mEncoder.getModeInfo();
-        mCropView.setModeSize(mode.getModeSize());
-        setTitle(mode.getModeName());
+        setMode(mSettings.getModeClassName());
         loadImage(getIntent());
     }
 
@@ -329,12 +327,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 String className = item.getIntent().getStringExtra(CLASS_NAME);
-                if (mEncoder.setMode(className)) {
-                    IModeInfo modeInfo = mEncoder.getModeInfo();
-                    mCropView.setModeSize(modeInfo.getModeSize());
-                    setTitle(modeInfo.getModeName());
-                }
+                setMode(className);
                 return true;
+        }
+    }
+
+    private void setMode(String modeClassName) {
+        if (mEncoder.setMode(modeClassName)) {
+            IModeInfo modeInfo = mEncoder.getModeInfo();
+            mCropView.setModeSize(modeInfo.getModeSize());
+            setTitle(modeInfo.getModeName());
+            mSettings.setModeClassName(modeClassName);
         }
     }
 

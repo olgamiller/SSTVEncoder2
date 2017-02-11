@@ -29,6 +29,10 @@ public final class ModeFactory {
         return Robot36.class;
     }
 
+    public static String getDefaultModeClassName() {
+        return (new ModeInfo(getDefaultMode())).getModeClassName();
+    }
+
     public static IModeInfo[] getModeInfoList() {
         return new IModeInfo[]{
                 new ModeInfo(Martin1.class), new ModeInfo(Martin2.class),

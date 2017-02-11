@@ -139,10 +139,9 @@ public class CropView extends ImageView {
     public void setModeSize(ModeSize size) {
         mModeSize = size;
         mOutputRect = Utility.getEmbeddedRect(getWidth(), getHeight(), mModeSize.width(), mModeSize.height());
-        if (mImageOK) {
+        if (mImageOK)
             resetInputRect();
-            invalidate();
-        }
+        invalidate();
     }
 
     private void resetInputRect() {

@@ -150,11 +150,13 @@ public class CropView extends ImageView {
         float ow = mImageWidth;
         float oh = mImageHeight;
         if (iw * oh > ow * ih) {
-            mInputRect = new RectF(0.0f, 0.0f, (iw * oh) / ih, oh);
-            mInputRect.offset((ow - (iw * oh) / ih) / 2.0f, 0.0f);
+            float right = (iw * oh) / ih;
+            mInputRect = new RectF(0f, 0f, right, oh);
+            mInputRect.offset((ow - right) / 2f, 0f);
         } else {
-            mInputRect = new RectF(0.0f, 0.0f, ow, (ih * ow) / iw);
-            mInputRect.offset(0.0f, (oh - (ih * ow) / iw) / 2.0f);
+            float bottom = (ih * ow) / iw;
+            mInputRect = new RectF(0f, 0f, ow, bottom);
+            mInputRect.offset(0f, (oh - bottom) / 2f);
         }
     }
 
@@ -240,8 +242,8 @@ public class CropView extends ImageView {
         float newH = mInputRect.height() / scaleFactor;
         float dx = 0.5f * (mInputRect.width() - newW);
         float dy = 0.5f * (mInputRect.height() - newH);
-        float max = 2.0f * Math.max(mImageWidth, mImageHeight);
-        if (Math.min(newW, newH) >= 4.0f && Math.max(newW, newH) <= max) {
+        float max = 2f * Math.max(mImageWidth, mImageHeight);
+        if (Math.min(newW, newH) >= 4f && Math.max(newW, newH) <= max) {
             mInputRect.inset(dx, dy);
             invalidate();
         }
@@ -252,10 +254,12 @@ public class CropView extends ImageView {
             return;
         float dx = (mInputRect.width() * distanceX) / mOutputRect.width();
         float dy = (mInputRect.height() * distanceY) / mOutputRect.height();
-        dx = Math.max(mInputRect.width() * 0.1f, mInputRect.right + dx) - mInputRect.right;
-        dy = Math.max(mInputRect.height() * 0.1f, mInputRect.bottom + dy) - mInputRect.bottom;
-        dx = Math.min(mImageWidth - mInputRect.width() * 0.1f, mInputRect.left + dx) - mInputRect.left;
-        dy = Math.min(mImageHeight - mInputRect.height() * 0.1f, mInputRect.top + dy) - mInputRect.top;
+        float min_w = mInputRect.width() * 0.1f;
+        float min_h = mInputRect.height() * 0.1f;
+        dx = Math.max(min_w, mInputRect.right + dx) - mInputRect.right;
+        dy = Math.max(min_h, mInputRect.bottom + dy) - mInputRect.bottom;
+        dx = Math.min(mImageWidth - min_w, mInputRect.left + dx) - mInputRect.left;
+        dy = Math.min(mImageHeight - min_h, mInputRect.top + dy) - mInputRect.top;
         mInputRect.offset(dx, dy);
         invalidate();
     }
@@ -304,10 +308,14 @@ public class CropView extends ImageView {
     }
 
     private void maximizeImageToCanvasRect() {
-        mImageDrawRect.left = Math.round(mInputRect.left - mOutputRect.left * mInputRect.width() / mOutputRect.width());
-        mImageDrawRect.top = Math.round(mInputRect.top - mOutputRect.top * mInputRect.height() / mOutputRect.height());
-        mImageDrawRect.right = Math.round(mInputRect.right - (mOutputRect.right - getWidth()) * mInputRect.width() / mOutputRect.width());
-        mImageDrawRect.bottom = Math.round(mInputRect.bottom - (mOutputRect.bottom - getHeight()) * mInputRect.height() / mOutputRect.height());
+        float l = mOutputRect.left * mInputRect.width() / mOutputRect.width();
+        float t = mOutputRect.top * mInputRect.height() / mOutputRect.height();
+        float r = (mOutputRect.right - getWidth()) * mInputRect.width() / mOutputRect.width();
+        float b = (mOutputRect.bottom - getHeight()) * mInputRect.height() / mOutputRect.height();
+        mImageDrawRect.left = Math.round(mInputRect.left - l);
+        mImageDrawRect.top = Math.round(mInputRect.top - t);
+        mImageDrawRect.right = Math.round(mInputRect.right - r);
+        mImageDrawRect.bottom = Math.round(mInputRect.bottom - b);
     }
 
     private void adjustCanvasAndImageRect(int width, int height) {
@@ -340,11 +348,19 @@ public class CropView extends ImageView {
     }
 
     private void drawRectInset(Canvas canvas, Rect rect, int inset) {
-        canvas.drawRect(rect.left + inset, rect.top + inset, rect.right - inset, rect.bottom - inset, mRectPaint);
+        canvas.drawRect(
+                rect.left + inset,
+                rect.top + inset,
+                rect.right - inset,
+                rect.bottom - inset, mRectPaint);
     }
 
     private Rect getIntRect(RectF rect) {
-        return new Rect(Math.round(rect.left), Math.round(rect.top), Math.round(rect.right), Math.round(rect.bottom));
+        return new Rect(
+                Math.round(rect.left),
+                Math.round(rect.top),
+                Math.round(rect.right),
+                Math.round(rect.bottom));
     }
 
     private int getSampleSize() {
@@ -368,37 +384,11 @@ public class CropView extends ImageView {
     }
 
     private void drawBitmap(Canvas canvas) {
-        int w = mImageWidth;
-        int h = mImageHeight;
-        for (int i = 0; i < mOrientation / 90; ++i) {
-            int tmp = w;
-            w = h;
-            h = tmp;
-            mImageDrawRect.set(mImageDrawRect.top, h - mImageDrawRect.left, mImageDrawRect.bottom, h - mImageDrawRect.right);
-            mCanvasDrawRect.set(mCanvasDrawRect.top, -mCanvasDrawRect.right, mCanvasDrawRect.bottom, -mCanvasDrawRect.left);
-        }
-        mImageDrawRect.sort();
         canvas.save();
         canvas.rotate(mOrientation);
+        rotateDrawRectangles();
         if (!mSmallImage) {
-            int sampleSize = getSampleSize();
-            if (sampleSize < mCacheSampleSize || !mCacheRect.contains(mImageDrawRect)) {
-                if (mCacheBitmap != null)
-                    mCacheBitmap.recycle();
-                int cacheWidth = mImageDrawRect.width();
-                int cacheHeight = mImageDrawRect.height();
-                while (cacheWidth * cacheHeight < (sampleSize * 1024 * sampleSize * 1024)) {
-                    cacheWidth += mImageDrawRect.width();
-                    cacheHeight += mImageDrawRect.height();
-                }
-                mCacheRect.set(
-                        Math.max(0, ~(sampleSize - 1) & (mImageDrawRect.centerX() - cacheWidth / 2)),
-                        Math.max(0, ~(sampleSize - 1) & (mImageDrawRect.centerY() - cacheHeight / 2)),
-                        Math.min(mRegionDecoder.getWidth(), ~(sampleSize - 1) & (mImageDrawRect.centerX() + cacheWidth / 2 + sampleSize - 1)),
-                        Math.min(mRegionDecoder.getHeight(), ~(sampleSize - 1) & (mImageDrawRect.centerY() + cacheHeight / 2 + sampleSize - 1)));
-                mBitmapOptions.inSampleSize = mCacheSampleSize = sampleSize;
-                mCacheBitmap = mRegionDecoder.decodeRegion(mCacheRect, mBitmapOptions);
-            }
+            updateCache();
             mImageDrawRect.offset(-mCacheRect.left, -mCacheRect.top);
             mImageDrawRect.left /= mCacheSampleSize;
             mImageDrawRect.top /= mCacheSampleSize;
@@ -407,6 +397,54 @@ public class CropView extends ImageView {
         }
         canvas.drawBitmap(mCacheBitmap, mImageDrawRect, mCanvasDrawRect, mPaint);
         canvas.restore();
+    }
+
+    private void rotateDrawRectangles() {
+        int w = mImageWidth;
+        int h = mImageHeight;
+        for (int i = 0; i < mOrientation / 90; ++i) {
+            int tmp = w;
+            w = h;
+            h = tmp;
+            mImageDrawRect.set(
+                    mImageDrawRect.top,
+                    h - mImageDrawRect.left,
+                    mImageDrawRect.bottom,
+                    h - mImageDrawRect.right);
+            mCanvasDrawRect.set(
+                    mCanvasDrawRect.top,
+                    -mCanvasDrawRect.right,
+                    mCanvasDrawRect.bottom,
+                    -mCanvasDrawRect.left);
+        }
+        mImageDrawRect.sort();
+    }
+
+    private void updateCache() {
+        int sampleSize = getSampleSize();
+        if (sampleSize >= mCacheSampleSize && mCacheRect.contains(mImageDrawRect))
+            return;
+
+        if (mCacheBitmap != null)
+            mCacheBitmap.recycle();
+
+        int cacheWidth = mImageDrawRect.width();
+        int cacheHeight = mImageDrawRect.height();
+        while (cacheWidth * cacheHeight < (sampleSize * 1024 * sampleSize * 1024)) {
+            cacheWidth += mImageDrawRect.width();
+            cacheHeight += mImageDrawRect.height();
+        }
+        int left = ~(sampleSize - 1) & (mImageDrawRect.centerX() - cacheWidth / 2);
+        int top = ~(sampleSize - 1) & (mImageDrawRect.centerY() - cacheHeight / 2);
+        int right = ~(sampleSize - 1) & (mImageDrawRect.centerX() + cacheWidth / 2 + sampleSize - 1);
+        int bottom = ~(sampleSize - 1) & (mImageDrawRect.centerY() + cacheHeight / 2 + sampleSize - 1);
+        mCacheRect.set(
+                Math.max(0, left),
+                Math.max(0, top),
+                Math.min(mRegionDecoder.getWidth(), right),
+                Math.min(mRegionDecoder.getHeight(), bottom));
+        mBitmapOptions.inSampleSize = mCacheSampleSize = sampleSize;
+        mCacheBitmap = mRegionDecoder.decodeRegion(mCacheRect, mBitmapOptions);
     }
 
     private void editLabelBegin(float x, float y) {

@@ -32,20 +32,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public final class Utility {
+final class Utility {
     @NonNull
-    public static Rect getEmbeddedRect(int w, int h, int iw, int ih) {
+    static Rect getEmbeddedRect(int w, int h, int iw, int ih) {
         Rect rect;
 
         int ow = (9 * w) / 10;
         int oh = (9 * h) / 10;
 
         if (iw * oh < ow * ih) {
-            rect = new android.graphics.Rect(0, 0, (iw * oh) / ih, oh);
-            rect.offset((w - (iw * oh) / ih) / 2, (h - oh) / 2);
+            int right = (iw * oh) / ih;
+            rect = new Rect(0, 0, right, oh);
+            rect.offset((w - right) / 2, (h - oh) / 2);
         } else {
-            rect = new android.graphics.Rect(0, 0, ow, (ih * ow) / iw);
-            rect.offset((w - ow) / 2, (h - (ih * ow) / iw) / 2);
+            int bottom = (ih * ow) / iw;
+            rect = new Rect(0, 0, ow, bottom);
+            rect.offset((w - ow) / 2, (h - bottom) / 2);
         }
         return rect;
     }

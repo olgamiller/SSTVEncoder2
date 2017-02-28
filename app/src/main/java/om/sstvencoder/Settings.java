@@ -33,9 +33,11 @@ import java.io.OutputStreamWriter;
 import om.sstvencoder.Modes.ModeFactory;
 
 class Settings {
+    private final static String VERSION = "version";
     private final static String IMAGE_URI = "image_uri";
     private final static String TEXT_OVERLAY_PATH = "text_overlay_path";
     private final static String MODE_CLASS_NAME = "mode_class_name";
+    private final int mVersion;
     private final String mFileName;
     private Context mContext;
     private String mModeClassName;
@@ -43,6 +45,7 @@ class Settings {
     private String mTextOverlayPath;
 
     private Settings() {
+        mVersion = 1;
         mFileName = "settings.json";
         mModeClassName = ModeFactory.getDefaultModeClassName();
     }
@@ -124,11 +127,16 @@ class Settings {
     private void write(JsonWriter writer) throws IOException {
         writer.beginObject();
         {
+            writeVersion(writer);
             writeModeClassName(writer);
             writeImageUri(writer);
             writeTextOverlayPath(writer);
         }
         writer.endObject();
+    }
+
+    private void writeVersion(JsonWriter writer) throws IOException {
+        writer.name(VERSION).value(mVersion);
     }
 
     private void writeModeClassName(JsonWriter writer) throws IOException {
@@ -146,11 +154,18 @@ class Settings {
     private void read(JsonReader reader) throws IOException {
         reader.beginObject();
         {
-            readModeClassName(reader);
-            readImageUri(reader);
-            readTextOverlayPath(reader);
+            if (readVersion(reader) == mVersion) {
+                readModeClassName(reader);
+                readImageUri(reader);
+                readTextOverlayPath(reader);
+            }
         }
         reader.endObject();
+    }
+
+    private int readVersion(JsonReader reader) throws IOException {
+        reader.nextName();
+        return reader.nextInt();
     }
 
     private void readModeClassName(JsonReader reader) throws IOException {

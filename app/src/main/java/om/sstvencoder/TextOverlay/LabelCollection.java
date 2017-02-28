@@ -41,6 +41,7 @@ public class LabelCollection {
         }
     }
 
+    private final int mVersion;
     private final List<LabelContainer> mLabels;
     private Size mScreenSize;
     private float mTextSizeFactor;
@@ -48,6 +49,7 @@ public class LabelCollection {
     private float mPreviousX, mPreviousY;
 
     public LabelCollection() {
+        mVersion = 1;
         mLabels = new LinkedList<>();
         mPreviousX = 0f;
         mPreviousY = 0f;
@@ -145,6 +147,7 @@ public class LabelCollection {
     public void write(@NonNull IWriter writer) throws IOException {
         writer.beginRootObject();
         {
+            writer.write("version", mVersion);
             writer.write("width", mScreenSize.width());
             writer.write("height", mScreenSize.height());
             writer.write("factor", mTextSizeFactor);
@@ -158,9 +161,12 @@ public class LabelCollection {
         writer.endObject();
     }
 
-    public void read(@NonNull IReader reader) throws IOException {
+    public boolean read(@NonNull IReader reader) throws IOException {
         reader.beginRootObject();
         {
+            if (reader.readInt() != mVersion)
+                return false;
+
             float w = reader.readFloat();
             float h = reader.readFloat();
             float textSizeFactor = reader.readFloat();
@@ -176,5 +182,6 @@ public class LabelCollection {
             update(w, h, textSizeFactor);
         }
         reader.endObject();
+        return true;
     }
 }

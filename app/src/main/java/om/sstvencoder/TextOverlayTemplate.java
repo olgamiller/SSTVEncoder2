@@ -163,8 +163,7 @@ class TextOverlayTemplate {
         try {
             InputStream in = new FileInputStream(file);
             jsonReader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-            labels.read(new LabelCollectionReader(jsonReader));
-            loaded = true;
+            loaded = labels.read(new LabelCollectionReader(jsonReader));
         } catch (Exception ignore) {
         } finally {
             if (jsonReader != null) {

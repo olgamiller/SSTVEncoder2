@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = getImageUriFromIntent(intent);
         boolean verbose = true;
         if (uri == null) {
-            uri = mSettings.getImageUri();
+            // SecurityException in loadImage for Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            // uri = mSettings.getImageUri();
             verbose = false;
         }
         loadImage(uri, verbose);
@@ -137,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (stream == null || !loadImage(stream, resolver, uri)) {
-            mCropView.setNoBitmap();
-            mSettings.setImageUri(null);
+            setDefaultBitmap();
             return false;
         }
         return true;
@@ -157,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
         }
         mCropView.rotateImage(getOrientation(resolver, uri));
         return true;
+    }
+
+    private void setDefaultBitmap() {
+        try {
+            mCropView.setBitmap(getResources().openRawResource(R.raw.smpte_color_bars));
+        } catch (Exception ignore) {
+            mCropView.setNoBitmap();
+        }
+        mSettings.setImageUri(null);
     }
 
     private boolean isIntentActionValid(String action) {
@@ -209,10 +218,8 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_LOAD_IMAGE_PERMISSION:
                 if (permissionGranted(grantResults))
                     loadImage(mSettings.getImageUri(), false);
-                else {
-                    mCropView.setNoBitmap();
-                    mSettings.setImageUri(null);
-                }
+                else
+                    setDefaultBitmap();
                 break;
             case REQUEST_IMAGE_CAPTURE_PERMISSION:
                 if (permissionGranted(grantResults))

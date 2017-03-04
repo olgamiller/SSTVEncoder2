@@ -42,7 +42,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
     private FontFamilySet mFontFamilySet;
     private FontFamilySet.FontFamily mSelectedFontFamily;
     private List<String> mFontFamilyNameList;
-    private CheckBox mEditItalic, mEditBold;
+    private CheckBox mEditItalic, mEditBold, mEditBorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         mColorPaletteView = (ColorPaletteView) findViewById(R.id.edit_color);
         mEditBold = (CheckBox) findViewById(R.id.edit_bold);
         mEditItalic = (CheckBox) findViewById(R.id.edit_italic);
+        mEditBorder = (CheckBox) findViewById(R.id.edit_border);
     }
 
     @Override
@@ -65,6 +66,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         mColorPaletteView.setColor(label.getForeColor());
         initFontFamilySpinner(label.getFamilyName());
         updateBoldAndItalic();
+        mEditBorder.setChecked(label.getBorder());
     }
 
     private void initFontFamilySpinner(String familyName) {
@@ -160,6 +162,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         label.setFamilyName(mSelectedFontFamily.name);
         label.setItalic(mEditItalic.isChecked());
         label.setBold(mEditBold.isChecked());
+        label.setBorder(mEditBorder.isChecked());
         label.setForeColor(mColorPaletteView.getColor());
         return label;
     }

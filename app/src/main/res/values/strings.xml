@@ -35,4 +35,5 @@
     <string name="chooser_title">Send Bug Report:</string>
     <string name="bold">Bold</string>
     <string name="italic">Italic</string>
+    <string name="border">Border</string>
 </resources>

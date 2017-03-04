@@ -16,11 +16,26 @@
         android:inputType="text"
         android:textSize="32sp"/>
 
-    <Spinner
-        android:id="@+id/edit_font_family"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="32sp"/>
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/edit_font_family"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:minHeight="32sp"/>
+
+        <Spinner
+            android:id="@+id/edit_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:minHeight="32sp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,12 +57,12 @@
             android:checked="true"
             android:text="@string/bold"/>
 
-        <Spinner
-            android:id="@+id/edit_text_size"
+        <CheckBox
+            android:id="@+id/edit_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:minHeight="32sp"/>
+            android:text="@string/border"/>
 
     </LinearLayout>
 

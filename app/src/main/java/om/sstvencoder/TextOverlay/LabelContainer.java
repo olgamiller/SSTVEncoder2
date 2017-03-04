@@ -104,6 +104,9 @@ class LabelContainer {
         writer.write("italic", label.getItalic());
         writer.write("fore_color", label.getForeColor());
         writer.write("back_color", label.getBackColor());
+        writer.write("border", label.getBorder());
+        writer.write("border_size", label.getBorderSize());
+        writer.write("border_color", label.getBorderColor());
     }
 
     private void readLabel(IReader reader, Label label) throws IOException {
@@ -114,6 +117,9 @@ class LabelContainer {
         label.setItalic(reader.readBoolean());
         label.setForeColor(reader.readInt());
         label.setBackColor(reader.readInt());
+        label.setBorder(reader.readBoolean());
+        label.setBorderSize(reader.readFloat());
+        label.setBorderColor(reader.readInt());
     }
 }
 

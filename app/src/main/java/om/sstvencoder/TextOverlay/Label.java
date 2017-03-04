@@ -21,10 +21,10 @@ import java.io.Serializable;
 
 public class Label implements Serializable {
     private String mText;
-    private float mTextSize;
+    private float mTextSize, mBorderSize;
     private String mFamilyName;
-    private boolean mBold, mItalic;
-    private int mForeColor, mBackColor;
+    private boolean mBold, mItalic, mBorder;
+    private int mForeColor, mBackColor, mBorderColor;
 
     public Label() {
         mText = "";
@@ -34,6 +34,9 @@ public class Label implements Serializable {
         mItalic = false;
         mForeColor = Color.BLACK;
         mBackColor = Color.TRANSPARENT;
+        mBorder = true;
+        mBorderSize = 0.05f;
+        mBorderColor = Color.WHITE;
     }
 
     public String getText() {
@@ -49,9 +52,9 @@ public class Label implements Serializable {
         return mTextSize;
     }
 
-    public void setTextSize(float textSize) {
-        if (textSize > 0f)
-            mTextSize = textSize;
+    public void setTextSize(float size) {
+        if (size > 0f)
+            mTextSize = size;
     }
 
     public String getFamilyName() {
@@ -92,5 +95,29 @@ public class Label implements Serializable {
 
     public void setBackColor(int color) {
         mBackColor = color;
+    }
+
+    public boolean getBorder() {
+        return mBorder;
+    }
+
+    public void setBorder(boolean border) {
+        mBorder = border;
+    }
+
+    public float getBorderSize() {
+        return mBorderSize;
+    }
+
+    public void setBorderSize(float size) {
+        mBorderSize = size;
+    }
+
+    public int getBorderColor() {
+        return mBorderColor;
+    }
+
+    public void setBorderColor(int color) {
+        mBorderColor = color;
     }
 }

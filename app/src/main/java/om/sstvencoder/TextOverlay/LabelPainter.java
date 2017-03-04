@@ -47,6 +47,7 @@ class LabelPainter {
 
         @Override
         public void draw(Canvas canvas) {
+            drawBorder(canvas, mX, mY);
             canvas.drawText(mLabel.getText(), mX, mY, mPaint);
         }
 
@@ -55,6 +56,7 @@ class LabelPainter {
             RectF bounds = new RectF(getBounds());
             float rx = 10f;
             float ry = 10f;
+            mPaint.setStrokeWidth(0f);
 
             mPaint.setColor(Color.LTGRAY);
             mPaint.setAlpha(100);
@@ -65,15 +67,15 @@ class LabelPainter {
             mPaint.setStyle(Paint.Style.STROKE);
 
             mPaint.setColor(Color.RED);
-            bounds.inset(-5.0f, -5.0f);
+            bounds.inset(-5f, -5f);
             canvas.drawRoundRect(bounds, rx, ry, mPaint);
 
             mPaint.setColor(Color.GREEN);
-            bounds.inset(1.0f, 1.0f);
+            bounds.inset(1f, 1f);
             canvas.drawRoundRect(bounds, rx, ry, mPaint);
 
             mPaint.setColor(Color.BLUE);
-            bounds.inset(1.0f, 1.0f);
+            bounds.inset(1f, 1f);
             canvas.drawRoundRect(bounds, rx, ry, mPaint);
 
             setPaintSettings(mSizeFactor);
@@ -84,9 +86,10 @@ class LabelPainter {
             float factor = (dst.height() / (float) src.height());
             float x = (mX - src.left) * factor;
             float y = (mY - src.top) * factor;
-            setTextSize(factor * mSizeFactor);
+            setSizePaintSettings(factor * mSizeFactor);
+            drawBorder(canvas, x, y);
             canvas.drawText(mLabel.getText(), x, y, mPaint);
-            setTextSize(mSizeFactor);
+            setSizePaintSettings(mSizeFactor);
         }
 
         @Override
@@ -114,16 +117,35 @@ class LabelPainter {
             return bounds;
         }
 
-        private void setPaintSettings(float sizeFactor) {
-            mPaint.setAlpha(255);
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setColor(mLabel.getForeColor());
-            mPaint.setTypeface(Typeface.create(mLabel.getFamilyName(), getTypeface()));
-            setTextSize(sizeFactor);
+        private void drawBorder(Canvas canvas, float x, float y) {
+            if (mLabel.getBorder()) {
+                setBorderPaintSettings();
+                canvas.drawText(mLabel.getText(), x, y, mPaint);
+                setTextPaintSettings();
+            }
         }
 
-        private void setTextSize(float sizeFactor) {
-            mPaint.setTextSize(mLabel.getTextSize() * sizeFactor);
+        private void setPaintSettings(float sizeFactor) {
+            mPaint.setAlpha(255);
+            mPaint.setTypeface(Typeface.create(mLabel.getFamilyName(), getTypeface()));
+            setTextPaintSettings();
+            setSizePaintSettings(sizeFactor);
+        }
+
+        private void setBorderPaintSettings() {
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setColor(mLabel.getBorderColor());
+        }
+
+        private void setTextPaintSettings() {
+            mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setColor(mLabel.getForeColor());
+        }
+
+        private void setSizePaintSettings(float sizeFactor) {
+            float textSize = mLabel.getTextSize() * sizeFactor;
+            mPaint.setTextSize(textSize);
+            mPaint.setStrokeWidth(mLabel.getBorderSize() * textSize);
         }
 
         private int getTypeface() {
@@ -149,6 +171,7 @@ class LabelPainter {
         private OutDrawer(float min) {
             mMinSize = min * 0.5f;
             mPaint.setAlpha(255);
+            mPaint.setStrokeWidth(0f);
         }
 
         private void leftOut(RectF rect, float screenH) {

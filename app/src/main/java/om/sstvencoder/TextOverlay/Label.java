@@ -20,6 +20,8 @@ import android.graphics.Color;
 import java.io.Serializable;
 
 public class Label implements Serializable {
+    public static final float TEXT_SIZE_NORMAL = 2f;
+    public static final float BORDER_SIZE_NORMAL = 0.05f;
     private String mText;
     private float mTextSize, mBorderSize;
     private String mFamilyName;
@@ -28,14 +30,14 @@ public class Label implements Serializable {
 
     public Label() {
         mText = "";
-        mTextSize = 2.0f;
+        mTextSize = TEXT_SIZE_NORMAL;
         mFamilyName = null;
         mBold = true;
         mItalic = false;
         mForeColor = Color.BLACK;
         mBackColor = Color.TRANSPARENT;
         mBorder = true;
-        mBorderSize = 0.05f;
+        mBorderSize = BORDER_SIZE_NORMAL;
         mBorderColor = Color.WHITE;
     }
 

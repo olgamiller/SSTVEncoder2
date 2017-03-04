@@ -38,7 +38,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
     public static final String EXTRA = "EDIT_TEXT_EXTRA";
     private EditText mEditText;
     private ColorPaletteView mColorPaletteView;
-    private float mTextSize;
+    private float mTextSize, mBorderSize;
     private FontFamilySet mFontFamilySet;
     private FontFamilySet.FontFamily mSelectedFontFamily;
     private List<String> mFontFamilyNameList;
@@ -67,6 +67,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         initFontFamilySpinner(label.getFamilyName());
         updateBoldAndItalic();
         mEditBorder.setChecked(label.getBorder());
+        initBorderSizeSpinner(label.getBorderSize());
     }
 
     private void initFontFamilySpinner(String familyName) {
@@ -90,10 +91,21 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         editTextSize.setSelection(textSizeToPosition(textSize));
     }
 
+    private void initBorderSizeSpinner(float borderSize) {
+        mBorderSize = borderSize;
+        Spinner editBorderSize = (Spinner) findViewById(R.id.edit_border_size);
+        editBorderSize.setOnItemSelectedListener(this);
+        String[] borderSizeList = new String[]{"Thin", "Normal", "Thick"};
+        editBorderSize.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, borderSizeList));
+        editBorderSize.setSelection(borderSizeToPosition(borderSize));
+    }
+
     private int textSizeToPosition(float textSize) {
         int position = (int) (textSize - 1f);
         if (0 <= position && position <= 3)
             return position;
+        mTextSize = Label.TEXT_SIZE_NORMAL;
         return 1;
     }
 
@@ -101,11 +113,26 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         return position + 1f;
     }
 
+    private int borderSizeToPosition(float borderSize) {
+        int position = (int) (borderSize * 2f / Label.BORDER_SIZE_NORMAL - 1f);
+        if (0 <= position && position <= 2)
+            return position;
+        mBorderSize = Label.BORDER_SIZE_NORMAL;
+        return 1;
+    }
+
+    private float positionToBorderSize(int position) {
+        return Label.BORDER_SIZE_NORMAL * 0.5f * (position + 1f);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.edit_text_size:
                 mTextSize = positionToTextSize(position);
+                break;
+            case R.id.edit_border_size:
+                mBorderSize = positionToBorderSize(position);
                 break;
             case R.id.edit_font_family:
                 String displayName = mFontFamilyNameList.get(position);
@@ -162,8 +189,9 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         label.setFamilyName(mSelectedFontFamily.name);
         label.setItalic(mEditItalic.isChecked());
         label.setBold(mEditBold.isChecked());
-        label.setBorder(mEditBorder.isChecked());
         label.setForeColor(mColorPaletteView.getColor());
+        label.setBorder(mEditBorder.isChecked());
+        label.setBorderSize(mBorderSize);
         return label;
     }
 }

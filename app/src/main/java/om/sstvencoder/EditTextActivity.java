@@ -38,11 +38,11 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
     public static final String EXTRA = "EDIT_TEXT_EXTRA";
     private EditText mEditText;
     private ColorPaletteView mColorPaletteView;
-    private float mTextSize, mBorderSize;
+    private float mTextSize, mOutlineSize;
     private FontFamilySet mFontFamilySet;
     private FontFamilySet.FontFamily mSelectedFontFamily;
     private List<String> mFontFamilyNameList;
-    private CheckBox mEditItalic, mEditBold, mEditBorder;
+    private CheckBox mEditItalic, mEditBold, mEditOutline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         mColorPaletteView = (ColorPaletteView) findViewById(R.id.edit_color);
         mEditBold = (CheckBox) findViewById(R.id.edit_bold);
         mEditItalic = (CheckBox) findViewById(R.id.edit_italic);
-        mEditBorder = (CheckBox) findViewById(R.id.edit_border);
+        mEditOutline = (CheckBox) findViewById(R.id.edit_outline);
     }
 
     @Override
@@ -66,39 +66,39 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         mColorPaletteView.setColor(label.getForeColor());
         initFontFamilySpinner(label.getFamilyName());
         updateBoldAndItalic();
-        mEditBorder.setChecked(label.getBorder());
-        initBorderSizeSpinner(label.getBorderSize());
+        mEditOutline.setChecked(label.getOutline());
+        initOutlineSizeSpinner(label.getOutlineSize());
     }
 
     private void initFontFamilySpinner(String familyName) {
-        Spinner editFontFamily = (Spinner) findViewById(R.id.edit_font_family);
-        editFontFamily.setOnItemSelectedListener(this);
+        Spinner spinner = (Spinner) findViewById(R.id.edit_font_family);
+        spinner.setOnItemSelectedListener(this);
         mFontFamilySet = new FontFamilySet();
         mSelectedFontFamily = mFontFamilySet.getFontFamily(familyName);
         mFontFamilyNameList = mFontFamilySet.getFontFamilyDisplayNameList();
-        editFontFamily.setAdapter(new ArrayAdapter<>(this,
+        spinner.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, mFontFamilyNameList));
-        editFontFamily.setSelection(mFontFamilyNameList.indexOf(mSelectedFontFamily.displayName));
+        spinner.setSelection(mFontFamilyNameList.indexOf(mSelectedFontFamily.displayName));
     }
 
     private void initTextSizeSpinner(float textSize) {
         mTextSize = textSize;
-        Spinner editTextSize = (Spinner) findViewById(R.id.edit_text_size);
-        editTextSize.setOnItemSelectedListener(this);
-        String[] textSizeList = new String[]{"Small", "Normal", "Large", "Huge"};
-        editTextSize.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, textSizeList));
-        editTextSize.setSelection(textSizeToPosition(textSize));
+        Spinner spinner = (Spinner) findViewById(R.id.edit_text_size);
+        spinner.setOnItemSelectedListener(this);
+        String[] sizeList = new String[]{"Small", "Normal", "Large", "Huge"};
+        spinner.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, sizeList));
+        spinner.setSelection(textSizeToPosition(textSize));
     }
 
-    private void initBorderSizeSpinner(float borderSize) {
-        mBorderSize = borderSize;
-        Spinner editBorderSize = (Spinner) findViewById(R.id.edit_border_size);
-        editBorderSize.setOnItemSelectedListener(this);
-        String[] borderSizeList = new String[]{"Thin", "Normal", "Thick"};
-        editBorderSize.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, borderSizeList));
-        editBorderSize.setSelection(borderSizeToPosition(borderSize));
+    private void initOutlineSizeSpinner(float outlineSize) {
+        mOutlineSize = outlineSize;
+        Spinner spinner = (Spinner) findViewById(R.id.edit_outline_size);
+        spinner.setOnItemSelectedListener(this);
+        String[] sizeList = new String[]{"Thin", "Normal", "Thick"};
+        spinner.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, sizeList));
+        spinner.setSelection(outlineSizeToPosition(outlineSize));
     }
 
     private int textSizeToPosition(float textSize) {
@@ -113,16 +113,16 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         return position + 1f;
     }
 
-    private int borderSizeToPosition(float borderSize) {
-        int position = (int) (borderSize * 2f / Label.BORDER_SIZE_NORMAL - 1f);
+    private int outlineSizeToPosition(float outlineSize) {
+        int position = (int) (outlineSize * 2f / Label.OUTLINE_SIZE_NORMAL - 1f);
         if (0 <= position && position <= 2)
             return position;
-        mBorderSize = Label.BORDER_SIZE_NORMAL;
+        mOutlineSize = Label.OUTLINE_SIZE_NORMAL;
         return 1;
     }
 
-    private float positionToBorderSize(int position) {
-        return Label.BORDER_SIZE_NORMAL * 0.5f * (position + 1f);
+    private float positionToOutlineSize(int position) {
+        return Label.OUTLINE_SIZE_NORMAL * 0.5f * (position + 1f);
     }
 
     @Override
@@ -131,8 +131,8 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
             case R.id.edit_text_size:
                 mTextSize = positionToTextSize(position);
                 break;
-            case R.id.edit_border_size:
-                mBorderSize = positionToBorderSize(position);
+            case R.id.edit_outline_size:
+                mOutlineSize = positionToOutlineSize(position);
                 break;
             case R.id.edit_font_family:
                 String displayName = mFontFamilyNameList.get(position);
@@ -190,8 +190,8 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         label.setItalic(mEditItalic.isChecked());
         label.setBold(mEditBold.isChecked());
         label.setForeColor(mColorPaletteView.getColor());
-        label.setBorder(mEditBorder.isChecked());
-        label.setBorderSize(mBorderSize);
+        label.setOutline(mEditOutline.isChecked());
+        label.setOutlineSize(mOutlineSize);
         return label;
     }
 }

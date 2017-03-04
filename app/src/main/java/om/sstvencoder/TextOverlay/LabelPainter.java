@@ -118,7 +118,7 @@ class LabelPainter {
         }
 
         private void drawBorder(Canvas canvas, float x, float y) {
-            if (mLabel.getBorder()) {
+            if (mLabel.getOutline()) {
                 setBorderPaintSettings();
                 canvas.drawText(mLabel.getText(), x, y, mPaint);
                 setTextPaintSettings();
@@ -134,7 +134,7 @@ class LabelPainter {
 
         private void setBorderPaintSettings() {
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setColor(mLabel.getBorderColor());
+            mPaint.setColor(mLabel.getOutlineColor());
         }
 
         private void setTextPaintSettings() {
@@ -145,7 +145,7 @@ class LabelPainter {
         private void setSizePaintSettings(float sizeFactor) {
             float textSize = mLabel.getTextSize() * sizeFactor;
             mPaint.setTextSize(textSize);
-            mPaint.setStrokeWidth(mLabel.getBorderSize() * textSize);
+            mPaint.setStrokeWidth(mLabel.getOutlineSize() * textSize);
         }
 
         private int getTypeface() {

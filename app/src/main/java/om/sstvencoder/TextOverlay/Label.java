@@ -21,12 +21,12 @@ import java.io.Serializable;
 
 public class Label implements Serializable {
     public static final float TEXT_SIZE_NORMAL = 2f;
-    public static final float BORDER_SIZE_NORMAL = 0.05f;
+    public static final float OUTLINE_SIZE_NORMAL = 0.05f;
     private String mText;
-    private float mTextSize, mBorderSize;
+    private float mTextSize, mOutlineSize;
     private String mFamilyName;
-    private boolean mBold, mItalic, mBorder;
-    private int mForeColor, mBackColor, mBorderColor;
+    private boolean mBold, mItalic, mOutline;
+    private int mForeColor, mBackColor, mOutlineColor;
 
     public Label() {
         mText = "";
@@ -36,9 +36,9 @@ public class Label implements Serializable {
         mItalic = false;
         mForeColor = Color.BLACK;
         mBackColor = Color.TRANSPARENT;
-        mBorder = true;
-        mBorderSize = BORDER_SIZE_NORMAL;
-        mBorderColor = Color.WHITE;
+        mOutline = true;
+        mOutlineSize = OUTLINE_SIZE_NORMAL;
+        mOutlineColor = Color.WHITE;
     }
 
     public String getText() {
@@ -99,27 +99,27 @@ public class Label implements Serializable {
         mBackColor = color;
     }
 
-    public boolean getBorder() {
-        return mBorder;
+    public boolean getOutline() {
+        return mOutline;
     }
 
-    public void setBorder(boolean border) {
-        mBorder = border;
+    public void setOutline(boolean outline) {
+        mOutline = outline;
     }
 
-    public float getBorderSize() {
-        return mBorderSize;
+    public float getOutlineSize() {
+        return mOutlineSize;
     }
 
-    public void setBorderSize(float size) {
-        mBorderSize = size;
+    public void setOutlineSize(float size) {
+        mOutlineSize = size;
     }
 
-    public int getBorderColor() {
-        return mBorderColor;
+    public int getOutlineColor() {
+        return mOutlineColor;
     }
 
-    public void setBorderColor(int color) {
-        mBorderColor = color;
+    public void setOutlineColor(int color) {
+        mOutlineColor = color;
     }
 }

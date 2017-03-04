@@ -65,14 +65,14 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/edit_border"
+            android:id="@+id/edit_outline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:text="@string/border"/>
+            android:text="@string/outline"/>
 
         <Spinner
-            android:id="@+id/edit_border_size"
+            android:id="@+id/edit_outline_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"

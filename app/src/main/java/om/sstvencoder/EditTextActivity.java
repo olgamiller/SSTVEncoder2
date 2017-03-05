@@ -17,6 +17,7 @@ package om.sstvencoder;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,11 +35,13 @@ import java.util.List;
 import om.sstvencoder.ColorPalette.ColorPaletteView;
 import om.sstvencoder.TextOverlay.Label;
 
-public class EditTextActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditTextActivity extends AppCompatActivity
+        implements AdapterView.OnItemSelectedListener, ColorFragment.OnColorSelectedListener {
     public static final int REQUEST_CODE = 101;
     public static final String EXTRA = "EDIT_TEXT_EXTRA";
     private EditText mEditText;
     private ColorPaletteView mColorPaletteView;
+    private int mOutlineColor;
     private float mTextSize, mOutlineSize;
     private FontFamilySet mFontFamilySet;
     private FontFamilySet.FontFamily mSelectedFontFamily;
@@ -68,6 +72,9 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         updateBoldAndItalic();
         mEditOutline.setChecked(label.getOutline());
         initOutlineSizeSpinner(label.getOutlineSize());
+        mOutlineColor = label.getOutlineColor();
+        Button colorButton = (Button) findViewById(R.id.edit_outline_color);
+        colorButton.setBackgroundColor(mOutlineColor);
     }
 
     private void initFontFamilySpinner(String familyName) {
@@ -174,6 +181,20 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         return super.onOptionsItemSelected(item);
     }
 
+    public void onOutlineColorClick(View view) {
+        ColorFragment fragment = new ColorFragment();
+        fragment.setColor(mOutlineColor);
+        fragment.addOnColorSelectedListener(this);
+        fragment.show(getSupportFragmentManager(), ColorFragment.class.getName());
+    }
+
+    @Override
+    public void onColorSelected(DialogFragment fragment, int color) {
+        mOutlineColor = color;
+        Button colorButton = (Button) findViewById(R.id.edit_outline_color);
+        colorButton.setBackgroundColor(mOutlineColor);
+    }
+
     private void done() {
         Intent intent = new Intent();
         intent.putExtra(EXTRA, getLabel());
@@ -192,6 +213,7 @@ public class EditTextActivity extends AppCompatActivity implements AdapterView.O
         label.setForeColor(mColorPaletteView.getColor());
         label.setOutline(mEditOutline.isChecked());
         label.setOutlineSize(mOutlineSize);
+        label.setOutlineColor(mOutlineColor);
         return label;
     }
 }

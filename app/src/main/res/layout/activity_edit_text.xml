@@ -54,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:checked="true"
             android:text="@string/bold"/>
 
     </LinearLayout>
@@ -75,8 +74,35 @@
             android:id="@+id/edit_outline_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
+            android:layout_weight="0.3"
             android:minHeight="32sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:clickable="true"
+            android:onClick="onOutlineColorClick"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/edit_outline_color"
+                android:layout_width="32sp"
+                android:layout_height="32sp"
+                android:background="@android:color/white"
+                android:onClick="onOutlineColorClick"/>
+
+            <TextView
+                android:id="@+id/outline_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6sp"
+                android:clickable="true"
+                android:onClick="onOutlineColorClick"
+                android:text="@string/outline_color"
+                android:textColor="?android:attr/textColorPrimary"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

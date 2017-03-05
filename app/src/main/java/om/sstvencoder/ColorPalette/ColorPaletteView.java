@@ -28,11 +28,15 @@ import java.util.ArrayList;
 
 public class ColorPaletteView extends View {
 
-    public interface OnChangeListener {
-        void onChange(View v, int color);
+    public interface OnColorSelectedListener {
+        void onColorChanged(View v, int color);
+
+        void onColorSelected(View v, int color);
+
+        void onCancel(View v);
     }
 
-    private final ArrayList<OnChangeListener> mListeners;
+    private final ArrayList<OnColorSelectedListener> mListeners;
     private final IColorPalette mPalette;
 
     public ColorPaletteView(Context context, AttributeSet attrs) {
@@ -72,6 +76,16 @@ public class ColorPaletteView extends View {
                 consumed = true;
                 break;
             }
+            case MotionEvent.ACTION_UP: {
+                float x = e.getX();
+                float y = e.getY();
+                if (getLeft() <= x && x <= getRight() && getTop() <= y && y <= getBottom())
+                    colorSelectedCallback();
+                else
+                    cancelCallback();
+                consumed = true;
+                break;
+            }
         }
         return consumed || super.onTouchEvent(e);
     }
@@ -79,17 +93,29 @@ public class ColorPaletteView extends View {
     private void update(float x, float y) {
         if (mPalette.selectColor(x, y)) {
             invalidate();
-            callback();
+            colorChangedCallback();
         }
     }
 
-    public void setOnChangeListener(OnChangeListener listener) {
+    public void addOnColorSelectedListener(OnColorSelectedListener listener) {
         mListeners.add(listener);
     }
 
-    private void callback() {
-        for (OnChangeListener listener : mListeners) {
-            listener.onChange(this, mPalette.getSelectedColor());
+    private void colorChangedCallback() {
+        for (OnColorSelectedListener listener : mListeners) {
+            listener.onColorChanged(this, mPalette.getSelectedColor());
+        }
+    }
+
+    private void colorSelectedCallback() {
+        for (OnColorSelectedListener listener : mListeners) {
+            listener.onColorSelected(this, mPalette.getSelectedColor());
+        }
+    }
+
+    private void cancelCallback() {
+        for (OnColorSelectedListener listener : mListeners) {
+            listener.onCancel(this);
         }
     }
 }

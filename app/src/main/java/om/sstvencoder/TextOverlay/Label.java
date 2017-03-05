@@ -18,6 +18,7 @@ package om.sstvencoder.TextOverlay;
 import android.graphics.Color;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 public class Label implements Serializable {
     public static final float TEXT_SIZE_NORMAL = 2f;
@@ -121,5 +122,16 @@ public class Label implements Serializable {
 
     public void setOutlineColor(int color) {
         mOutlineColor = color;
+    }
+
+    public Label getClone() {
+        Label clone = new Label();
+        try {
+            for (Field field : getClass().getDeclaredFields()) {
+                field.set(clone, field.get(this));
+            }
+        } catch (Exception ignore) {
+        }
+        return clone;
     }
 }

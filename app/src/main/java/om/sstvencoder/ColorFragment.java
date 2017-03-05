@@ -33,14 +33,22 @@ public class ColorFragment extends DialogFragment
 
     public interface OnColorSelectedListener {
         void onColorSelected(DialogFragment fragment, int color);
+
+        void onCancel(DialogFragment fragment);
     }
 
     private List<OnColorSelectedListener> mListeners;
+    private int mTitle;
     private int mColor;
 
     public ColorFragment() {
         mListeners = new ArrayList<>();
+        mTitle = R.string.color;
         mColor = Color.WHITE;
+    }
+
+    public void setTitle(int title) {
+        mTitle = title;
     }
 
     public void setColor(int color) {
@@ -59,7 +67,7 @@ public class ColorFragment extends DialogFragment
         ColorPaletteView colorView = (ColorPaletteView) view.findViewById(R.id.select_color);
         colorView.setColor(mColor);
         colorView.addOnColorSelectedListener(this);
-        builder.setTitle(R.string.outline_color);
+        builder.setTitle(mTitle);
         builder.setView(view);
         return builder.create();
     }
@@ -77,6 +85,8 @@ public class ColorFragment extends DialogFragment
 
     @Override
     public void onCancel(View v) {
+        for (OnColorSelectedListener listener : mListeners)
+            listener.onCancel(this);
         dismiss();
     }
 }

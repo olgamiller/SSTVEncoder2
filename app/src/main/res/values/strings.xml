@@ -36,5 +36,6 @@
     <string name="bold">Bold</string>
     <string name="italic">Italic</string>
     <string name="outline">Outline</string>
+    <string name="color">Color</string>
     <string name="outline_color">Outline Color</string>
 </resources>

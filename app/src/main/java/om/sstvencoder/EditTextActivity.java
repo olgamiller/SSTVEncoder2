@@ -25,23 +25,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.List;
 
-import om.sstvencoder.ColorPalette.ColorPaletteView;
 import om.sstvencoder.TextOverlay.Label;
 
 public class EditTextActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener, ColorFragment.OnColorSelectedListener {
+
+    private enum EditColorMode {
+        None,
+        Text,
+        Outline
+    }
+
     public static final int REQUEST_CODE = 101;
     public static final String EXTRA = "EDIT_TEXT_EXTRA";
     private EditText mEditText;
-    private ColorPaletteView mColorPaletteView;
-    private int mOutlineColor;
+    private int mColor, mOutlineColor;
+    private EditColorMode mEditColor;
     private float mTextSize, mOutlineSize;
     private FontFamilySet mFontFamilySet;
     private FontFamilySet.FontFamily mSelectedFontFamily;
@@ -52,8 +57,8 @@ public class EditTextActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_text);
+        mEditColor = EditColorMode.None;
         mEditText = (EditText) findViewById(R.id.edit_text);
-        mColorPaletteView = (ColorPaletteView) findViewById(R.id.edit_color);
         mEditBold = (CheckBox) findViewById(R.id.edit_bold);
         mEditItalic = (CheckBox) findViewById(R.id.edit_italic);
         mEditOutline = (CheckBox) findViewById(R.id.edit_outline);
@@ -67,14 +72,16 @@ public class EditTextActivity extends AppCompatActivity
         initTextSizeSpinner(label.getTextSize());
         mEditBold.setChecked(label.getBold());
         mEditItalic.setChecked(label.getItalic());
-        mColorPaletteView.setColor(label.getForeColor());
         initFontFamilySpinner(label.getFamilyName());
         updateBoldAndItalic();
         mEditOutline.setChecked(label.getOutline());
         initOutlineSizeSpinner(label.getOutlineSize());
+
+        mColor = label.getForeColor();
+        findViewById(R.id.edit_color).setBackgroundColor(mColor);
+
         mOutlineColor = label.getOutlineColor();
-        Button colorButton = (Button) findViewById(R.id.edit_outline_color);
-        colorButton.setBackgroundColor(mOutlineColor);
+        findViewById(R.id.edit_outline_color).setBackgroundColor(mOutlineColor);
     }
 
     private void initFontFamilySpinner(String familyName) {
@@ -181,18 +188,42 @@ public class EditTextActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void onColorClick(View view) {
+        showColorDialog(R.string.color, mColor);
+        mEditColor = EditColorMode.Text;
+    }
+
     public void onOutlineColorClick(View view) {
+        showColorDialog(R.string.outline_color, mOutlineColor);
+        mEditColor = EditColorMode.Outline;
+    }
+
+    private void showColorDialog(int title, int color) {
         ColorFragment fragment = new ColorFragment();
-        fragment.setColor(mOutlineColor);
+        fragment.setTitle(title);
+        fragment.setColor(color);
         fragment.addOnColorSelectedListener(this);
         fragment.show(getSupportFragmentManager(), ColorFragment.class.getName());
     }
 
     @Override
     public void onColorSelected(DialogFragment fragment, int color) {
-        mOutlineColor = color;
-        Button colorButton = (Button) findViewById(R.id.edit_outline_color);
-        colorButton.setBackgroundColor(mOutlineColor);
+        switch (mEditColor) {
+            case Text:
+                mOutlineColor = color;
+                findViewById(R.id.edit_color).setBackgroundColor(mOutlineColor);
+                break;
+            case Outline:
+                mOutlineColor = color;
+                findViewById(R.id.edit_outline_color).setBackgroundColor(mOutlineColor);
+                break;
+        }
+        mEditColor = EditColorMode.None;
+    }
+
+    @Override
+    public void onCancel(DialogFragment fragment) {
+        mEditColor = EditColorMode.None;
     }
 
     private void done() {
@@ -210,7 +241,7 @@ public class EditTextActivity extends AppCompatActivity
         label.setFamilyName(mSelectedFontFamily.name);
         label.setItalic(mEditItalic.isChecked());
         label.setBold(mEditBold.isChecked());
-        label.setForeColor(mColorPaletteView.getColor());
+        label.setForeColor(mColor);
         label.setOutline(mEditOutline.isChecked());
         label.setOutlineSize(mOutlineSize);
         label.setOutlineColor(mOutlineColor);

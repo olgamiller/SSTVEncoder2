@@ -53,8 +53,35 @@
             android:id="@+id/edit_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
+            android:layout_weight="0.3"
             android:text="@string/bold"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:clickable="true"
+            android:onClick="onColorClick"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/edit_color"
+                android:layout_width="32sp"
+                android:layout_height="32sp"
+                android:background="@android:color/white"
+                android:onClick="onColorClick"/>
+
+            <TextView
+                android:id="@+id/color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6sp"
+                android:clickable="true"
+                android:onClick="onColorClick"
+                android:text="@string/color"
+                android:textColor="?android:attr/textColorPrimary"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -105,10 +132,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <om.sstvencoder.ColorPalette.ColorPaletteView
-        android:id="@+id/edit_color"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </LinearLayout>

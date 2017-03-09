@@ -162,7 +162,7 @@ class GridColorPalette implements IColorPalette {
 
         int column = (int) (x / (mBoxSize + mSpace));
         int row = (int) (y / (mBoxSize + mSpace));
-        if (0 > row || row >= mRows || 0 > column && column >= mColumns)
+        if (0 > row || row >= mRows || 0 > column || column >= mColumns)
             return false;
 
         int i = row * mColumns + column;

@@ -17,14 +17,17 @@ package om.sstvencoder;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,6 +56,7 @@ public class EditTextActivity extends AppCompatActivity
     private FontFamilySet.FontFamily mSelectedFontFamily;
     private List<String> mFontFamilyNameList;
     private CheckBox mEditItalic, mEditBold, mEditOutline;
+    private int mClearTextButtonWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +87,12 @@ public class EditTextActivity extends AppCompatActivity
 
     private void initText() {
         EditText editText = (EditText) findViewById(R.id.edit_text);
+        int clearTextIcon = android.R.drawable.ic_menu_close_clear_cancel;
+        Drawable drawable = ContextCompat.getDrawable(this, clearTextIcon);
         editText.setText(mLabel.getText());
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        mClearTextButtonWidth = 2 * drawable.getIntrinsicWidth();
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -96,6 +105,42 @@ public class EditTextActivity extends AppCompatActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            private boolean mClear;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent e) {
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (HitClearTextButton(view, e)) {
+                            mClear = true;
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (!HitClearTextButton(view, e))
+                            mClear = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (HitClearTextButton(view, e) && mClear) {
+                            ((EditText) view).setText("");
+                            return true;
+                        }
+                        mClear = false;
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        mClear = false;
+                        break;
+                }
+                return false;
+            }
+
+            private boolean HitClearTextButton(View view, MotionEvent e) {
+                int left = view.getRight() - mClearTextButtonWidth;
+                return left < e.getX();
             }
         });
     }

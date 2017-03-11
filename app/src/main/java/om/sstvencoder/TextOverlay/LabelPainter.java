@@ -95,6 +95,10 @@ class LabelPainter {
         public RectF getBounds() {
             RectF bounds = new RectF(getTextBounds());
             bounds.offset(mX, mY);
+            if (mLabel.getOutline()) {
+                float inset = mLabel.getOutlineSize() * mPaint.getTextSize();
+                bounds.inset(-inset, -inset);
+            }
             return bounds;
         }
 
@@ -113,10 +117,6 @@ class LabelPainter {
             Rect bounds = new Rect();
             String text = mLabel.getText();
             mPaint.getTextBounds(text, 0, text.length(), bounds);
-            if (mLabel.getOutline()) {
-                int dxOutline = (int) (mLabel.getOutlineSize() * mPaint.getTextSize()) / 2;
-                bounds.inset(-dxOutline, -dxOutline);
-            }
             return bounds;
         }
 

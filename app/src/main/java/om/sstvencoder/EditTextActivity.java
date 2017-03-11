@@ -16,6 +16,8 @@ limitations under the License.
 package om.sstvencoder;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,6 +78,7 @@ public class EditTextActivity extends AppCompatActivity
         initOutlineSizeSpinner(mLabel.getOutlineSize());
         findViewById(R.id.edit_color).setBackgroundColor(mLabel.getForeColor());
         findViewById(R.id.edit_outline_color).setBackgroundColor(mLabel.getOutlineColor());
+        enableOutline(mEditOutline.isChecked());
     }
 
     private void initText() {
@@ -171,17 +174,31 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     private void updateBoldAndItalic() {
-        mEditBold.setEnabled(mSelectedFontFamily.bold);
+        boolean bold = mSelectedFontFamily.bold;
+        mEditBold.setEnabled(bold);
+        findViewById(R.id.text_bold).setEnabled(bold);
         if (!mEditBold.isEnabled()) {
             mEditBold.setChecked(false);
             mLabel.setBold(false);
         }
 
-        mEditItalic.setEnabled(mSelectedFontFamily.italic);
+        boolean italic = mSelectedFontFamily.italic;
+        mEditItalic.setEnabled(italic);
+        findViewById(R.id.text_italic).setEnabled(italic);
         if (!mEditItalic.isEnabled()) {
             mEditItalic.setChecked(false);
             mLabel.setItalic(false);
         }
+    }
+
+    private void enableOutline(boolean enabled) {
+        findViewById(R.id.text_outline_size).setEnabled(enabled);
+        findViewById(R.id.edit_outline_size).setEnabled(enabled);
+        findViewById(R.id.text_outline_color).setEnabled(enabled);
+        findViewById(R.id.edit_outline_color).setEnabled(enabled);
+        @ColorInt
+        int color = enabled ? mLabel.getOutlineColor() : Color.DKGRAY;
+        findViewById(R.id.edit_outline_color).setBackgroundColor(color);
     }
 
     @Override
@@ -213,7 +230,11 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     public void onOutlineClick(View view) {
-        mLabel.setOutline(mEditOutline.isChecked());
+        if (view.getId() == R.id.text_outline)
+            mEditOutline.setChecked(!mEditOutline.isChecked());
+        boolean outline = mEditOutline.isChecked();
+        mLabel.setOutline(outline);
+        enableOutline(outline);
     }
 
     public void onColorClick(View view) {
@@ -222,8 +243,10 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     public void onOutlineColorClick(View view) {
-        showColorDialog(R.string.outline_color, mLabel.getOutlineColor());
-        mEditColor = EditColorMode.Outline;
+        if (mEditOutline.isChecked()) {
+            showColorDialog(R.string.outline_color, mLabel.getOutlineColor());
+            mEditColor = EditColorMode.Outline;
+        }
     }
 
     private void showColorDialog(int title, int color) {

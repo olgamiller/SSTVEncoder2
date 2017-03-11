@@ -1,139 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_edit_text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".EditTextActivity">
 
-    <EditText
-        android:id="@+id/edit_text"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone|flagNoExtractUi"
-        android:inputType="text"
-        android:textSize="32sp"/>
+        android:stretchColumns="1,4">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:id="@+id/edit_font_family"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:minHeight="32sp"/>
-
-        <Spinner
-            android:id="@+id/edit_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:minHeight="32sp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/edit_italic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:onClick="onItalicClick"
-            android:text="@string/italic"/>
-
-        <CheckBox
-            android:id="@+id/edit_bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:onClick="onBoldClick"
-            android:text="@string/bold"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:clickable="true"
-            android:onClick="onColorClick"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/edit_color"
-                android:layout_width="32sp"
-                android:layout_height="32sp"
-                android:background="@android:color/white"
-                android:onClick="onColorClick"/>
+        <TableRow>
 
             <TextView
-                android:id="@+id/color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6sp"
-                android:clickable="true"
-                android:onClick="onColorClick"
-                android:text="@string/color"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:text="@string/text"/>
 
-        </LinearLayout>
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_span="4"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:inputType="text"
+                android:textSize="32sp"/>
 
-    </LinearLayout>
+        </TableRow>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/edit_outline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:onClick="onOutlineClick"
-            android:text="@string/outline"/>
-
-        <Spinner
-            android:id="@+id/edit_outline_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:minHeight="32sp"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:clickable="true"
-            android:onClick="onOutlineColorClick"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/edit_outline_color"
-                android:layout_width="32sp"
-                android:layout_height="32sp"
-                android:background="@android:color/white"
-                android:onClick="onOutlineColorClick"/>
+        <TableRow>
 
             <TextView
-                android:id="@+id/outline_color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6sp"
+                android:text="@string/font"/>
+
+            <Spinner
+                android:id="@+id/edit_font_family"
+                android:layout_span="4"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/text_italic"
+                android:text="@string/italic"/>
+
+            <CheckBox
+                android:id="@+id/edit_italic"
+                android:onClick="onItalicClick"
+                android:text=""/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/text_bold"
+                android:text="@string/bold"/>
+
+            <CheckBox
+                android:id="@+id/edit_bold"
+                android:onClick="onBoldClick"
+                android:text=""/>
+
+            <CheckBox
+                android:id="@+id/edit_outline"
+                android:onClick="onOutlineClick"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/text_outline"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_span="2"
                 android:clickable="true"
-                android:onClick="onOutlineColorClick"
-                android:text="@string/outline_color"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:onClick="onOutlineClick"
+                android:text="@string/outline"/>
 
-        </LinearLayout>
+        </TableRow>
 
-    </LinearLayout>
+        <TableRow>
 
-</LinearLayout>
+            <TextView
+                android:text="@string/size"/>
+
+            <Spinner
+                android:id="@+id/edit_text_size"
+                android:layout_width="50dp"/>
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"/>
+
+            <TextView
+                android:id="@+id/text_outline_size"
+                android:text="@string/size"/>
+
+            <Spinner
+                android:id="@+id/edit_outline_size"
+                android:layout_width="50dp"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="@string/color"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:onClick="onColorClick">
+
+                <View
+                    android:id="@+id/edit_color"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
+                    android:layout_margin="6sp"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onColorClick"/>
+
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"/>
+
+            <TextView
+                android:id="@+id/text_outline_color"
+                android:text="@string/color"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:onClick="onOutlineColorClick">
+
+                <View
+                    android:id="@+id/edit_outline_color"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
+                    android:layout_margin="6sp"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onOutlineColorClick"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+    </TableLayout>
+
+</ScrollView>

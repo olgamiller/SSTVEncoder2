@@ -19,6 +19,7 @@ import android.graphics.Color;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class Label implements Serializable {
     public static final float TEXT_SIZE_NORMAL = 2f;
@@ -128,7 +129,8 @@ public class Label implements Serializable {
         Label clone = new Label();
         try {
             for (Field field : getClass().getDeclaredFields()) {
-                field.set(clone, field.get(this));
+                if (!Modifier.isFinal(field.getModifiers()))
+                    field.set(clone, field.get(this));
             }
         } catch (Exception ignore) {
         }

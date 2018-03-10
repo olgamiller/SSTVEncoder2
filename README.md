@@ -15,7 +15,7 @@ This app sends images via Slow Scan Television (SSTV).
 **Wraase Modes:**  Wraase SC2 180
 
 The mode specifications are taken from the Dayton Paper of JL Barber:  
-http://www.barberdsp.com/files/Dayton%20Paper.pdf
+http://www.barberdsp.com/downloads/Dayton%20Paper.pdf
 
 ### Image
 
@@ -57,6 +57,12 @@ will be stored and reloaded when restarting.
 * "Modes"
   - Lists all supported modes.
 
+### Google Play
+
+On Google Play the Working App:  
+SSTV Encoder  
+https://play.google.com/store/apps/details?id=om.sstvencoder
+
 ### SSTV Image Decoder
 
 Open Source Code:  
@@ -84,7 +90,7 @@ Diese Applikation sendet Bilder via Slow Scan Television (SSTV).
 
 Modi-Spezifikation:  
 Dayton Paper of JL Barber  
-http://www.barberdsp.com/files/Dayton%20Paper.pdf
+http://www.barberdsp.com/downloads/Dayton%20Paper.pdf
 
 ### Bild
 
@@ -122,6 +128,12 @@ Nach dem Schließen der Applikation alle Texte werden gespeichert und wieder gel
   - Rotiert das Bild um 90 Grad.
 * "Modes"
   - Listet alle unterstützten Modi.
+
+### Google Play
+
+Auf Google Play die funktionierende Applikation:  
+SSTV Encoder  
+https://play.google.com/store/apps/details?id=om.sstvencoder
 
 ### SSTV-Dekodierer
 

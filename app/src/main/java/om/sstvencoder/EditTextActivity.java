@@ -63,9 +63,9 @@ public class EditTextActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_text);
         mEditColor = EditColorMode.None;
-        mEditBold = (CheckBox) findViewById(R.id.edit_bold);
-        mEditItalic = (CheckBox) findViewById(R.id.edit_italic);
-        mEditOutline = (CheckBox) findViewById(R.id.edit_outline);
+        mEditBold = findViewById(R.id.edit_bold);
+        mEditItalic = findViewById(R.id.edit_italic);
+        mEditOutline = findViewById(R.id.edit_outline);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     private void initText() {
-        EditText editText = (EditText) findViewById(R.id.edit_text);
+        EditText editText = findViewById(R.id.edit_text);
         int clearTextIcon = android.R.drawable.ic_menu_close_clear_cancel;
         Drawable drawable = ContextCompat.getDrawable(this, clearTextIcon);
         editText.setText(mLabel.getText());
@@ -146,7 +146,7 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     private void initFontFamilySpinner(String familyName) {
-        Spinner spinner = (Spinner) findViewById(R.id.edit_font_family);
+        Spinner spinner = findViewById(R.id.edit_font_family);
         spinner.setOnItemSelectedListener(this);
         mFontFamilySet = new FontFamilySet();
         mSelectedFontFamily = mFontFamilySet.getFontFamily(familyName);
@@ -157,7 +157,7 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     private void initTextSizeSpinner(float textSize) {
-        Spinner spinner = (Spinner) findViewById(R.id.edit_text_size);
+        Spinner spinner = findViewById(R.id.edit_text_size);
         spinner.setOnItemSelectedListener(this);
         String[] sizeList = new String[]{"Small", "Normal", "Large", "Huge"};
         spinner.setAdapter(new ArrayAdapter<>(this,
@@ -166,7 +166,7 @@ public class EditTextActivity extends AppCompatActivity
     }
 
     private void initOutlineSizeSpinner(float outlineSize) {
-        Spinner spinner = (Spinner) findViewById(R.id.edit_outline_size);
+        Spinner spinner = findViewById(R.id.edit_outline_size);
         spinner.setOnItemSelectedListener(this);
         String[] sizeList = new String[]{"Thin", "Normal", "Thick"};
         spinner.setAdapter(new ArrayAdapter<>(this,

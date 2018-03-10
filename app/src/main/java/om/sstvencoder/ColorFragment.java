@@ -64,7 +64,7 @@ public class ColorFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_color, null);
-        ColorPaletteView colorView = (ColorPaletteView) view.findViewById(R.id.select_color);
+        ColorPaletteView colorView = view.findViewById(R.id.select_color);
         colorView.setColor(mColor);
         colorView.addOnColorSelectedListener(this);
         builder.setTitle(mTitle);

@@ -26,11 +26,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -40,7 +40,7 @@ import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.TextOverlay.Label;
 import om.sstvencoder.TextOverlay.LabelCollection;
 
-public class CropView extends ImageView {
+public class CropView extends AppCompatImageView {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {

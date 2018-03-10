@@ -71,6 +71,7 @@
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:layout_span="2"
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="onOutlineClick"
                 android:text="@string/outline"/>
 
@@ -105,6 +106,7 @@
 
             <LinearLayout
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="onColorClick">
 
                 <View
@@ -114,6 +116,7 @@
                     android:layout_margin="6sp"
                     android:background="@android:color/white"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="onColorClick"/>
 
             </LinearLayout>
@@ -127,6 +130,7 @@
 
             <LinearLayout
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="onOutlineColorClick">
 
                 <View
@@ -136,6 +140,7 @@
                     android:layout_margin="6sp"
                     android:background="@android:color/white"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="onOutlineColorClick"/>
 
             </LinearLayout>

@@ -57,10 +57,14 @@ final class Utility {
     }
 
     static String createMessage(Exception ex) {
-        String message = ex.getMessage() + "\n";
-        for (StackTraceElement el : ex.getStackTrace())
-            message += "\n" + el.toString();
-        return message;
+        StringBuilder sb = new StringBuilder();
+        sb.append(ex.getMessage());
+        sb.append("\n");
+        for (StackTraceElement el : ex.getStackTrace()) {
+            sb.append("\n");
+            sb.append(el.toString());
+        }
+        return sb.toString();
     }
 
     @NonNull

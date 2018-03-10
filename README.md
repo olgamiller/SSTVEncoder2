@@ -1,11 +1,12 @@
-#SSTV Encoder 2
+# SSTV Encoder 2
+
 Copyright 2017 Olga Miller <olga.rgb@gmail.com>
 
-###Short Description
+### Short Description
 
 This app sends images via Slow Scan Television (SSTV).
 
-###Supported modes
+### Supported modes
 
 **Martin Modes:**  Martin 1, Martin 2  
 **PD Modes:**      PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290  
@@ -16,7 +17,7 @@ This app sends images via Slow Scan Television (SSTV).
 The mode specifications are taken from the Dayton Paper of JL Barber:  
 http://www.barberdsp.com/files/Dayton%20Paper.pdf
 
-###Image
+### Image
 
 Tap "Take Picture" or "Pick Picture" menu button or  
 use the Share option of any app like Gallery to load an image.
@@ -29,7 +30,7 @@ will be scaled to that mode's native size.
 
 After closing the app the loaded image will not be stored.
 
-###Text Overlay
+### Text Overlay
 
 Single tap **to add** a text overlay.  
 Single tap on text overlay **to edit** it.  
@@ -39,7 +40,7 @@ Remove the text **to remove** a text overlay.
 After closing the app all text overlays  
 will be stored and reloaded when restarting.
 
-###Menu
+### Menu
 
 * "Pick Picture"
   - Opens an image viewer app to select a picture.
@@ -56,7 +57,7 @@ will be stored and reloaded when restarting.
 * "Modes"
   - Lists all supported modes.
 
-###SSTV Image Decoder
+### SSTV Image Decoder
 
 Open Source Code:  
 https://github.com/xdsopl/robot36/tree/android
@@ -65,15 +66,15 @@ On Google Play the Working App:
 Robot36 - SSTV Image Decoder  
 https://play.google.com/store/apps/details?id=xdsopl.robot36
 
-#####__________________ DEUTSCH __________________  
+##### __________________ DEUTSCH __________________  
 
-#SSTV-Dekodierer 2
+# SSTV-Dekodierer 2
 
-###Kurze Beschreibung
+### Kurze Beschreibung
 
 Diese Applikation sendet Bilder via Slow Scan Television (SSTV).
 
-###Unterstützte Modi
+### Unterstützte Modi
 
 **Martin Modi:**  Martin 1, Martin 2  
 **PD Modi:**      PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290  
@@ -85,7 +86,7 @@ Modi-Spezifikation:
 Dayton Paper of JL Barber  
 http://www.barberdsp.com/files/Dayton%20Paper.pdf
 
-###Bild
+### Bild
 
 Bilder können durch das Berühren des "Take Picture" oder "Pick Picture" Menü-Knopfes oder  
 durch die "Teilen" (oder "Bild Teilen", "Share") Option anderer Applikationen wie "Galerie" geladen.
@@ -98,14 +99,14 @@ wird das Bild auf die native Größe skaliert.
 
 Nach dem Schließen der Applikation wird das Bild nicht gespeichert.
 
-###Text
+### Text
 
 Tippen der Bildfläche startet den Text-Editor.  
 Bewegen des Textes wird durch langes Berühren initiiert.
 
 Nach dem Schließen der Applikation alle Texte werden gespeichert und wieder geladen beim Neustart.
 
-###Menu
+### Menu
 
 * "Pick Picture"
   - Öffnet eine Applikation wie "Galerie" um ein Bild auszuwählen.
@@ -122,7 +123,7 @@ Nach dem Schließen der Applikation alle Texte werden gespeichert und wieder gel
 * "Modes"
   - Listet alle unterstützten Modi.
 
-###SSTV-Dekodierer
+### SSTV-Dekodierer
 
 Quelltext:  
 https://github.com/xdsopl/robot36/tree/android

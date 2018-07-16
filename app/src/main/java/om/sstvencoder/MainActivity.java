@@ -273,16 +273,33 @@ public class MainActivity extends AppCompatActivity {
     public int getOrientation(ContentResolver resolver, Uri uri) {
         int orientation = 0;
         try {
-            Cursor cursor = resolver.query(uri, new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
+            Cursor cursor = resolver.query(uri,
+                    new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
+                    null, null, null);
             if (cursor.moveToFirst())
                 orientation = cursor.getInt(0);
             cursor.close();
         } catch (Exception ignore) {
-            try {
-                ExifInterface exif = new ExifInterface(uri.getPath());
-                orientation = Utility.convertToDegrees(exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0));
-            } catch (Exception ex) {
-                showOrientationErrorMessage(uri, ex);
+            orientation = getExifOrientation(resolver, uri);
+        }
+        return orientation;
+    }
+
+    private int getExifOrientation(ContentResolver resolver, Uri uri) {
+        int orientation = 0;
+        InputStream in = null;
+        try {
+            in = resolver.openInputStream(uri);
+            int orientationAttribute = (new ExifInterface(in)).getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
+            orientation = Utility.convertToDegrees(orientationAttribute);
+        } catch (Exception ex) {
+            showOrientationErrorMessage(uri, ex);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception ignore) {
+                }
             }
         }
         return orientation;

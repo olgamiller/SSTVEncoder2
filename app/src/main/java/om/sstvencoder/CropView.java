@@ -16,6 +16,7 @@ limitations under the License.
 package om.sstvencoder;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
@@ -449,7 +450,7 @@ public class CropView extends AppCompatImageView {
 
     private void editLabelBegin(float x, float y) {
         Label label = mLabelCollection.editLabelBegin(x, y);
-        ((MainActivity) getContext()).startEditTextActivity(label);
+        GetActivity().startEditTextActivity(label);
     }
 
     public void editLabelEnd(Label label) {
@@ -459,5 +460,14 @@ public class CropView extends AppCompatImageView {
 
     public LabelCollection getLabels() {
         return mLabelCollection;
+    }
+
+    private MainActivity GetActivity() {
+        MainActivity activity;
+        Context context = getContext();
+        if (!(context instanceof MainActivity))
+            context = ((ContextWrapper) context).getBaseContext();
+        activity = (MainActivity) context;
+        return activity;
     }
 }

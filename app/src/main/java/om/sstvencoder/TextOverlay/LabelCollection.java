@@ -115,7 +115,7 @@ public class LabelCollection {
     }
 
     public void editLabelEnd(Label label) {
-        if (label != null) { // not canceled
+        if (mEditLabel != null && label != null) {
             if ("".equals(label.getText().trim())) {
                 if (mLabels.contains(mEditLabel))
                     mLabels.remove(mEditLabel);

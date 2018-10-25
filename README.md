@@ -1,12 +1,12 @@
 # SSTV Encoder 2
 
-Copyright 2017 Olga Miller <olga.rgb@gmail.com>
+Copyright 2018 Olga Miller <olga.rgb@gmail.com>
 
 ### Short Description
 
 This app sends images via Slow Scan Television (SSTV).
 
-### Supported modes
+### Supported Modes
 
 **Martin Modes:**  Martin 1, Martin 2  
 **PD Modes:**      PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290  
@@ -74,9 +74,9 @@ https://play.google.com/store/apps/details?id=xdsopl.robot36
 
 ##### __________________ DEUTSCH __________________  
 
-# SSTV-Dekodierer 2
+# SSTV-Kodierer 2
 
-### Kurze Beschreibung
+### Kurzbeschreibung
 
 Diese Applikation sendet Bilder via Slow Scan Television (SSTV).
 

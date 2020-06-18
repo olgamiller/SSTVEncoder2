@@ -15,7 +15,7 @@ limitations under the License.
 */
 package om.sstvencoder.TextOverlay;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 

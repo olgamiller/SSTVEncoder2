@@ -86,7 +86,7 @@
                 android:id="@+id/edit_text_size"
                 android:layout_width="50dp"/>
 
-            <android.support.v4.widget.Space
+            <Space
                 android:layout_width="0dp"/>
 
             <TextView
@@ -121,7 +121,7 @@
 
             </LinearLayout>
 
-            <android.support.v4.widget.Space
+            <Space
                 android:layout_width="0dp"/>
 
             <TextView

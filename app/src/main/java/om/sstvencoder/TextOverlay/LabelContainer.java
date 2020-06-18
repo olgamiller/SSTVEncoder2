@@ -17,7 +17,7 @@ package om.sstvencoder.TextOverlay;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 

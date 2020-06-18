@@ -15,7 +15,7 @@ limitations under the License.
 */
 package om.sstvencoder;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;

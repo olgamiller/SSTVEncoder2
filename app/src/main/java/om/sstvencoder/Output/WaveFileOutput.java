@@ -16,17 +16,15 @@ limitations under the License.
 package om.sstvencoder.Output;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 
 class WaveFileOutput implements IOutput {
     private final double mSampleRate;
-    private File mFile;
+    private WaveFileOutputContext mContext;
     private BufferedOutputStream mOutputStream;
     private int mSamples, mWrittenSamples;
 
-    WaveFileOutput(File file, double sampleRate) {
-        mFile = file;
+    WaveFileOutput(WaveFileOutputContext context, double sampleRate) {
+        mContext = context;
         mSampleRate = sampleRate;
     }
 
@@ -67,7 +65,7 @@ class WaveFileOutput implements IOutput {
 
     private void InitOutputStream() {
         try {
-            mOutputStream = new BufferedOutputStream(new FileOutputStream(mFile));
+            mOutputStream = new BufferedOutputStream(mContext.createWaveOutputStream());
         } catch (Exception ignore) {
         }
     }
@@ -98,11 +96,8 @@ class WaveFileOutput implements IOutput {
         } catch (Exception ignore) {
         }
 
-        if (mFile != null) {
-            if (cancel)
-                mFile.delete();
-            mFile = null;
-        }
+        if (cancel)
+            mContext.deleteFile();
     }
 
     private void padWithZeros(int count) {

@@ -17,7 +17,7 @@ package om.sstvencoder;
 
 import android.os.Handler;
 
-import java.io.File;
+import om.sstvencoder.Output.WaveFileOutputContext;
 
 class MainActivityMessenger {
     private final MainActivity mMainActivity;
@@ -28,11 +28,11 @@ class MainActivityMessenger {
         mHandler = new Handler();
     }
 
-    void carrySaveAsWaveIsDoneMessage(final File file) {
+    void carrySaveAsWaveIsDoneMessage(final WaveFileOutputContext context) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mMainActivity.completeSaving(file);
+                mMainActivity.completeSaving(context);
             }
         });
     }

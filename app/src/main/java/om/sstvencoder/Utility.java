@@ -15,7 +15,6 @@ limitations under the License.
 */
 package om.sstvencoder;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -23,7 +22,7 @@ import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
@@ -89,18 +88,6 @@ final class Utility {
         return 0;
     }
 
-    @NonNull
-    static ContentValues getWavContentValues(File file) {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Audio.Media.ALBUM, "SSTV Encoder");
-        values.put(MediaStore.Audio.Media.ARTIST, "");
-        values.put(MediaStore.Audio.Media.DATA, file.toString());
-        values.put(MediaStore.Audio.Media.IS_MUSIC, true);
-        values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/wav");
-        values.put(MediaStore.Audio.Media.TITLE, file.getName());
-        return values;
-    }
-
     static Uri createImageUri(Context context) {
         if (!isExternalStorageWritable())
             return null;
@@ -114,18 +101,15 @@ final class Utility {
         return FileProvider.getUriForFile(context, "om.sstvencoder", file); // content:// URI
     }
 
-    static File createWaveFilePath() {
-        if (!isExternalStorageWritable())
-            return null;
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        return new File(dir, createFileName() + ".wav");
+    static String createWaveFileName() {
+        return createFileName() + ".wav";
     }
 
     private static String createFileName() {
         return new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
     }
 
-    private static boolean isExternalStorageWritable() {
+    static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }

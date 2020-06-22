@@ -17,7 +17,6 @@ package om.sstvencoder;
 
 import android.graphics.Bitmap;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import om.sstvencoder.ModeInterfaces.IModeInfo;
 import om.sstvencoder.Modes.ModeFactory;
 import om.sstvencoder.Output.IOutput;
 import om.sstvencoder.Output.OutputFactory;
+import om.sstvencoder.Output.WaveFileOutputContext;
 
 // Creates IMode instance
 class Encoder {
@@ -108,21 +108,21 @@ class Encoder {
             enqueue(mode);
     }
 
-    void save(Bitmap bitmap, File file) {
+    void save(Bitmap bitmap, WaveFileOutputContext context) {
         if (mSaveWaveThread != null && mSaveWaveThread.isAlive())
             return;
-        IOutput output = OutputFactory.createOutputForSavingAsWave(file);
+        IOutput output = OutputFactory.createOutputForSavingAsWave(context);
         IMode mode = ModeFactory.CreateMode(mModeClass, bitmap, output);
         if (mode != null)
-            save(mode, file);
+            save(mode, context);
     }
 
-    private void save(final IMode mode, final File file) {
+    private void save(final IMode mode, final WaveFileOutputContext context) {
         mSaveWaveThread = new Thread() {
             @Override
             public void run() {
                 mode.init();
-                mProgressBar2.begin(mode.getProcessCount(), file.getName() + " saving...");
+                mProgressBar2.begin(mode.getProcessCount(), context.getFileName() + " saving...");
 
                 while (mode.process()) {
                     mProgressBar2.step();
@@ -135,7 +135,7 @@ class Encoder {
                 mode.finish(mQuit);
                 mProgressBar2.end();
                 if (!mQuit)
-                    mMessenger.carrySaveAsWaveIsDoneMessage(file);
+                    mMessenger.carrySaveAsWaveIsDoneMessage(context);
             }
         };
         mSaveWaveThread.start();

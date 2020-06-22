@@ -15,8 +15,6 @@ limitations under the License.
 */
 package om.sstvencoder.Output;
 
-import java.io.File;
-
 public final class OutputFactory {
 
     public static IOutput createOutputForSending() {
@@ -24,11 +22,8 @@ public final class OutputFactory {
         return new AudioOutput(sampleRate);
     }
 
-    public static IOutput createOutputForSavingAsWave(File filePath) {
+    public static IOutput createOutputForSavingAsWave(WaveFileOutputContext context) {
         double sampleRate = 44100.0;
-
-        if (filePath == null)
-            return null;
-        return new WaveFileOutput(filePath, sampleRate);
+        return new WaveFileOutput(context, sampleRate);
     }
 }

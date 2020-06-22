@@ -19,7 +19,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -43,10 +42,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.InputStream;
 
 import om.sstvencoder.ModeInterfaces.IModeInfo;
+import om.sstvencoder.Output.WaveFileOutputContext;
 import om.sstvencoder.TextOverlay.Label;
 
 public class MainActivity extends AppCompatActivity {
@@ -191,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean needsRequestWritePermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             return false;
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         int state = ContextCompat.checkSelfPermission(this, permission);
@@ -443,18 +443,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void save() {
-        File file = Utility.createWaveFilePath();
-        mEncoder.save(mCropView.getBitmap(), file);
+        if (Utility.isExternalStorageWritable()) {
+            WaveFileOutputContext context
+                    = new WaveFileOutputContext(getContentResolver(), Utility.createWaveFileName());
+            mEncoder.save(mCropView.getBitmap(), context);
+        }
     }
 
-    public void completeSaving(File file) {
-        addFileToContentResolver(file);
-    }
-
-    private void addFileToContentResolver(File file) {
-        ContentValues values = Utility.getWavContentValues(file);
-        Uri uri = MediaStore.Audio.Media.getContentUriForPath(file.getAbsolutePath());
-        getContentResolver().insert(uri, values);
+    public void completeSaving(WaveFileOutputContext context) {
+        context.clear();
     }
 
     @Override

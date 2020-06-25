@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void completeSaving(WaveFileOutputContext context) {
-        context.clear();
+        context.update();
     }
 
     @Override

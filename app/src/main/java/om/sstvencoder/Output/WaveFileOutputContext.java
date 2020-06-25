@@ -42,22 +42,7 @@ public class WaveFileOutputContext {
         else
             mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), mFileName);
     }
-
-    public String getFileName() {
-        return mFileName;
-    }
-
-    public OutputStream createWaveOutputStream() {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                return mContentResolver.openOutputStream(mUri);
-            else
-                return new FileOutputStream(mFile);
-        } catch (Exception ignore) {
-        }
-        return null;
-    }
-
+    
     private ContentValues getContentValues(String fileName) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/wav");
@@ -73,7 +58,22 @@ public class WaveFileOutputContext {
         return values;
     }
 
-    public void clear() {
+    public String getFileName() {
+        return mFileName;
+    }
+
+    public OutputStream getOutputStream() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                return mContentResolver.openOutputStream(mUri);
+            } else
+                return new FileOutputStream(mFile);
+        } catch (Exception ignore) {
+        }
+        return null;
+    }
+
+    public void update() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (mUri != null && mValues != null) {
                 mValues.clear();

@@ -65,7 +65,7 @@ class WaveFileOutput implements IOutput {
 
     private void InitOutputStream() {
         try {
-            mOutputStream = new BufferedOutputStream(mContext.createWaveOutputStream());
+            mOutputStream = new BufferedOutputStream(mContext.getOutputStream());
         } catch (Exception ignore) {
         }
     }

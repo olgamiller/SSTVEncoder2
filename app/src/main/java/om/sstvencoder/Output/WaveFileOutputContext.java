@@ -56,14 +56,8 @@ public class WaveFileOutputContext {
     }
 
     private boolean init() {
-        String album = "SSTV Encoder";
-        mValues = new ContentValues();
-        mValues.put(MediaStore.Audio.Media.ALBUM, album);
-        mValues.put(MediaStore.Audio.Media.MIME_TYPE, "audio/wav");
+        mValues = getContentValues(mFileName);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            mValues.put(MediaStore.Audio.Media.DISPLAY_NAME, mFileName);
-            mValues.put(MediaStore.Audio.Media.RELATIVE_PATH, (new File(Environment.DIRECTORY_MUSIC, album)).getPath());
-            mValues.put(MediaStore.Audio.Media.IS_PENDING, 1);
             mUri = mContentResolver.insert(MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), mValues);
             if (mUri != null) {
                 String path = mUri.getPath();
@@ -72,10 +66,23 @@ public class WaveFileOutputContext {
             }
         } else {
             mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), mFileName);
-            mValues.put(MediaStore.Audio.Media.TITLE, mFileName);
-            mValues.put(MediaStore.Audio.Media.IS_MUSIC, true);
         }
         return mUri != null;
+    }
+
+    private ContentValues getContentValues(String fileName) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/wav");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Audio.Media.DISPLAY_NAME, fileName);
+            values.put(MediaStore.Audio.Media.RELATIVE_PATH, (new File(Environment.DIRECTORY_MUSIC, "SSTV Encoder")).getPath());
+            values.put(MediaStore.Audio.Media.IS_PENDING, 1);
+        } else {
+            values.put(MediaStore.Audio.Media.ALBUM, "SSTV Encoder");
+            values.put(MediaStore.Audio.Media.TITLE, fileName);
+            values.put(MediaStore.Audio.Media.IS_MUSIC, true);
+        }
+        return values;
     }
 
     public void clear() {

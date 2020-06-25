@@ -72,22 +72,24 @@ public class WaveFileOutputContext {
             }
         } else {
             mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), mFileName);
-            mValues.put(MediaStore.Audio.Media.DATA, mFile.toString());
             mValues.put(MediaStore.Audio.Media.TITLE, mFileName);
             mValues.put(MediaStore.Audio.Media.IS_MUSIC, true);
-            mUri = MediaStore.Audio.Media.getContentUriForPath(mFile.getAbsolutePath());
-            if (mUri != null)
-                mContentResolver.insert(mUri, mValues);
         }
         return mUri != null;
     }
 
     public void clear() {
-        if (mUri != null && mValues != null) {
-            mValues.clear();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (mUri != null && mValues != null) {
+                mValues.clear();
                 mValues.put(MediaStore.Audio.Media.IS_PENDING, 0);
-            mContentResolver.update(mUri, mValues, null, null);
+                mContentResolver.update(mUri, mValues, null, null);
+            }
+        } else {
+            if (mFile != null && mValues != null) {
+                mValues.put(MediaStore.Audio.Media.DATA, mFile.toString());
+                mUri = mContentResolver.insert(MediaStore.Audio.Media.getContentUriForPath(mFile.getAbsolutePath()), mValues);
+            }
         }
     }
 

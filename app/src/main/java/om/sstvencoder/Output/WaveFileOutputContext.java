@@ -36,6 +36,11 @@ public class WaveFileOutputContext {
     public WaveFileOutputContext(ContentResolver contentResolver, String fileName) {
         mContentResolver = contentResolver;
         mFileName = fileName;
+        mValues = getContentValues(fileName);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            mUri = mContentResolver.insert(MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), mValues);
+        else
+            mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), mFileName);
     }
 
     public String getFileName() {
@@ -43,31 +48,14 @@ public class WaveFileOutputContext {
     }
 
     public OutputStream createWaveOutputStream() {
-        if (init()) {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                    return mContentResolver.openOutputStream(mUri);
-                else
-                    return new FileOutputStream(mFile);
-            } catch (Exception ignore) {
-            }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                return mContentResolver.openOutputStream(mUri);
+            else
+                return new FileOutputStream(mFile);
+        } catch (Exception ignore) {
         }
         return null;
-    }
-
-    private boolean init() {
-        mValues = getContentValues(mFileName);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            mUri = mContentResolver.insert(MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), mValues);
-            if (mUri != null) {
-                String path = mUri.getPath();
-                if (path != null)
-                    mFile = new File(path);
-            }
-        } else {
-            mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), mFileName);
-        }
-        return mUri != null;
     }
 
     private ContentValues getContentValues(String fileName) {
@@ -102,8 +90,9 @@ public class WaveFileOutputContext {
 
     public void deleteFile() {
         try {
-            if (mFile != null)
-                mFile.delete();
+            if (mFile == null)
+                mFile = new File(mUri.getPath());
+            mFile.delete();
         } catch (Exception ignore) {
         }
     }

@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean needsRequestWritePermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
             return false;
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         int state = ContextCompat.checkSelfPermission(this, permission);

@@ -1,6 +1,6 @@
 # SSTV Encoder 2
 
-Copyright 2018 Olga Miller <olga.rgb@gmail.com>
+Copyright 2021 Olga Miller <olga.rgb@gmail.com>
 
 ### Short Description
 

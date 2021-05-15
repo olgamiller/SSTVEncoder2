@@ -59,18 +59,22 @@ will be stored and reloaded when restarting.
 
 ### Google Play
 
-On Google Play the Working App:  
+On Google Play of F-Droid the Working App:  
 SSTV Encoder  
 https://play.google.com/store/apps/details?id=om.sstvencoder
+
+https://f-droid.org/packages/om.sstvencoder/
 
 ### SSTV Image Decoder
 
 Open Source Code:  
 https://github.com/xdsopl/robot36/tree/android
 
-On Google Play the Working App:  
+On Google Play of F-Droid the Working App:  
 Robot36 - SSTV Image Decoder  
 https://play.google.com/store/apps/details?id=xdsopl.robot36
+
+https://f-droid.org/packages/xdsopl.robot36/
 
 ##### __________________ DEUTSCH __________________  
 
@@ -131,15 +135,19 @@ Nach dem Schließen der Applikation alle Texte werden gespeichert und wieder gel
 
 ### Google Play
 
-Auf Google Play die funktionierende Applikation:  
+Auf Google Play oder F-Droid die funktionierende Applikation:  
 SSTV Encoder  
 https://play.google.com/store/apps/details?id=om.sstvencoder
+
+https://f-droid.org/packages/om.sstvencoder/
 
 ### SSTV-Dekodierer
 
 Quelltext:  
 https://github.com/xdsopl/robot36/tree/android
 
-Auf Google Play die funktionierende Applikation:  
+Auf Google Play oder F-Droid die funktionierende Applikation:  
 Robot36 - SSTV Bild Dekodierer  
 https://play.google.com/store/apps/details?id=xdsopl.robot36
+
+https://f-droid.org/packages/xdsopl.robot36/

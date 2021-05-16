@@ -59,7 +59,7 @@ will be stored and reloaded when restarting.
 
 ### Google Play
 
-On Google Play of F-Droid the Working App:  
+On Google Play or F-Droid the Working App:  
 SSTV Encoder  
 https://play.google.com/store/apps/details?id=om.sstvencoder
 
@@ -70,7 +70,7 @@ https://f-droid.org/packages/om.sstvencoder/
 Open Source Code:  
 https://github.com/xdsopl/robot36/tree/android
 
-On Google Play of F-Droid the Working App:  
+On Google Play or F-Droid the Working App:  
 Robot36 - SSTV Image Decoder  
 https://play.google.com/store/apps/details?id=xdsopl.robot36
 

@@ -1,7 +1,5 @@
 # SSTV Encoder 2
 
-Copyright 2021 Olga Miller <olga.rgb@gmail.com>
-
 ### Short Description
 
 This app sends images via Slow Scan Television (SSTV).

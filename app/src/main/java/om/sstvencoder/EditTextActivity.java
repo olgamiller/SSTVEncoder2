@@ -200,21 +200,18 @@ public class EditTextActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.edit_text_size:
-                mLabel.setTextSize(positionToTextSize(position));
-                break;
-            case R.id.edit_outline_size:
-                mLabel.setOutlineSize(positionToOutlineSize(position));
-                break;
-            case R.id.edit_font_family:
-                String displayName = mFontFamilyNameList.get(position);
-                mSelectedFontFamily = mFontFamilySet.getFontFamilyFromDisplayName(displayName);
-                mLabel.setFamilyName(mSelectedFontFamily.name);
-                updateBoldAndItalic();
-                break;
-            default:
-                break;
+        int parentId = parent.getId();
+        if (parentId == R.id.edit_text_size) {
+            mLabel.setTextSize(positionToTextSize(position));
+        }
+        else if (parentId == R.id.edit_outline_size) {
+            mLabel.setOutlineSize(positionToOutlineSize(position));
+        }
+        else if (parentId == R.id.edit_font_family) {
+            String displayName = mFontFamilyNameList.get(position);
+            mSelectedFontFamily = mFontFamilySet.getFontFamilyFromDisplayName(displayName);
+            mLabel.setFamilyName(mSelectedFontFamily.name);
+            updateBoldAndItalic();
         }
     }
 
@@ -258,10 +255,10 @@ public class EditTextActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                done();
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.action_done) {
+            done();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

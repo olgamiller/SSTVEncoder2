@@ -325,35 +325,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_pick_picture:
-                dispatchPickPictureIntent();
-                return true;
-            case R.id.action_take_picture:
-                takePicture();
-                return true;
-            case R.id.action_save_wave:
-                if (needsRequestWritePermission())
-                    requestWritePermission(REQUEST_SAVE_WAVE_PERMISSION);
-                else
-                    save();
-                return true;
-            case R.id.action_play:
-                play();
-                return true;
-            case R.id.action_stop:
-                mEncoder.stop();
-                return true;
-            case R.id.action_rotate:
-                mCropView.rotateImage(90);
-                return true;
-            case R.id.action_modes:
-                return true;
-            default:
-                String className = item.getIntent().getStringExtra(CLASS_NAME);
-                setMode(className);
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.action_pick_picture) {
+            dispatchPickPictureIntent();
         }
+        else if (id == R.id.action_take_picture) {
+            takePicture();
+        }
+        else if (id == R.id.action_save_wave) {
+            if (needsRequestWritePermission())
+                requestWritePermission(REQUEST_SAVE_WAVE_PERMISSION);
+            else
+                save();
+        }
+        else if (id == R.id.action_play) {
+            play();
+        }
+        else if (id == R.id.action_stop) {
+            mEncoder.stop();
+        }
+        else if (id == R.id.action_rotate) {
+            mCropView.rotateImage(90);
+        }
+        else if (id != R.id.action_modes) {
+            String className = item.getIntent().getStringExtra(CLASS_NAME);
+            setMode(className);
+        }
+        return true;
     }
 
     private void setMode(String modeClassName) {

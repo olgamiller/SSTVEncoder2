@@ -16,7 +16,6 @@ limitations under the License.
 package om.sstvencoder;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -29,7 +28,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -175,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         return type != null && type.startsWith("image/");
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean isPermissionException(Exception ex) {
         return ex.getCause() instanceof ErrnoException
                 && ((ErrnoException) ex.getCause()).errno == OsConstants.EACCES;
@@ -198,13 +195,11 @@ public class MainActivity extends AppCompatActivity {
         return state != PackageManager.PERMISSION_GRANTED;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void requestReadPermission(int requestCode) {
         String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, permissions, requestCode);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void requestWritePermission(int requestCode) {
         String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, permissions, requestCode);
@@ -375,9 +370,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean hasCamera() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
-            return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
-        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
 
     public void startEditTextActivity(@NonNull Label label) {

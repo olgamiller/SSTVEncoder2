@@ -4,7 +4,7 @@ android {
     compileSdkVersion 32
     defaultConfig {
         applicationId "om.sstvencoder"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 32
         versionCode 26
         versionName "2.5"

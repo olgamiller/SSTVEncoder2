@@ -5,6 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/action_play"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/action_play"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_stop"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="@string/action_stop"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/action_pick_picture"
         android:icon="@android:drawable/ic_menu_gallery"
         android:title="@string/action_pick_picture"
@@ -18,16 +28,6 @@
         android:id="@+id/action_save_wave"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/action_save_wave"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_play"
-        android:icon="@android:drawable/ic_media_play"
-        android:title="@string/action_play"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_stop"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:title="@string/action_stop"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_rotate"

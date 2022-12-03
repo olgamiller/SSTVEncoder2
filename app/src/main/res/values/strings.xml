@@ -3,7 +3,7 @@
     <string name="app_name">SSTV Encoder</string>
     <string name="action_pick_picture">Pick Picture</string>
     <string name="action_take_picture">Take Picture</string>
-    <string name="action_save_wave">Save Wave File</string>
+    <string name="action_save_wave">Save as WAVE File</string>
     <string name="action_stop">Stop</string>
     <string name="action_play">Play</string>
     <string name="action_rotate">Rotate Image</string>

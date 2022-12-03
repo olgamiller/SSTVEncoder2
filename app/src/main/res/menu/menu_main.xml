@@ -40,4 +40,9 @@
         app:showAsAction="ifRoom">
         <menu/>
     </item>
+    <item
+        android:id="@+id/action_privacy_policy"
+        android:title="@string/action_privacy_policy"
+        app:showAsAction="never">
+    </item>
 </menu>

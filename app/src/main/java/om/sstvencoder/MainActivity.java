@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_LOAD_IMAGE_PERMISSION:
@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private boolean permissionGranted(@NonNull int[] grantResults) {

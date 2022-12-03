@@ -33,6 +33,13 @@
         \n\nThe modified image with text overlays will be encoded to audio using the selected mode. The selected mode will be stored in the app settings locally.
         \n\nThe resulting audio can either be played back by pressing the play button or saved locally on the device by pressing the save button.
     </string>
+    <string name="action_about">About SSTV Encoder</string>
+    <string name="action_about_text">
+        SSTV Encoder %1$s\nCopyright 2017 Olga Miller
+        \n\nSSTV Encoder sends images via Slow Scan Television (SSTV).
+        \n\nFor more info, see open source code: \nhttps://github.com/olgamiller/SSTVEncoder2
+        \n\nDISCLAIMER:\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    </string>
     <string name="load_img_err_title">Image loading error</string>
     <string name="load_img_orientation_err_title">Image orientation error</string>
     <string name="load_img_err_txt_unsupported">Unsupported content.</string>

@@ -45,4 +45,9 @@
         android:title="@string/action_privacy_policy"
         app:showAsAction="never">
     </item>
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/action_about"
+        app:showAsAction="never">
+    </item>
 </menu>

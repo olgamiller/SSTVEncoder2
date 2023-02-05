@@ -1,6 +1,5 @@
+![Icon](app/src/main/res/mipmap-xhdpi/ic_launcher.png)
 # SSTV Encoder 2
-
-### Short Description
 
 This app sends images via Slow-Scan Television (SSTV).
 

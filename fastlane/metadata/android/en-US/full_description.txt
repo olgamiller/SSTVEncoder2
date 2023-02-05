@@ -1,43 +1,68 @@
---- Supported modes:
 
-<ul><li><b>Martin Modes:</b> Martin 1, Martin 2</li>
-<li><b>PD Modes:</b> PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290</li>
-<li><b>Scottie Modes:</b> Scottie 1, Scottie 2, Scottie DX</li>
-<li><b>Robot Modes:</b> Robot 36 Color, Robot 72 Color</li>
-<li><b>Wraase Modes:</b> Wraase SC2 180</li></ul>
+<h3>Supported Modes</h3>
 
-The mode specifications are taken from the Dayton Paper of JL Barber:
-http://www.barberdsp.com/downloads/Dayton%20Paper.pdf
+<ul>
+    <li><b>Martin Modes:</b> Martin 1, Martin 2</li>
+    <li><b>PD Modes:</b> PD 50, PD 90, PD 120, PD 160, PD 180, PD 240, PD 290</li>
+    <li><b>Scottie Modes:</b> Scottie 1, Scottie 2, Scottie DX</li>
+    <li><b>Robot Modes:</b> Robot 36 Color, Robot 72 Color</li>
+    <li><b>Wraase Modes:</b> Wraase SC2 180</li>
+</ul>
 
---- Image:
+<p>
+    The mode specifications are taken from the Dayton Paper, JL Barber, "Proposal for SSTV Mode
+    Specifications", 2000:
+    <br>
+    <a href='http://www.barberdsp.com/downloads/Dayton%20Paper.pdf'>http://www.barberdsp.com/downloads/Dayton%20Paper.pdf</a>
+</p>
 
-Tap "Take Picture" or "Pick Picture" menu button or
-use the Share option of any app like Gallery to load an image.
+<h3>Image</h3>
 
-To keep the aspect ratio, black borders will be added if necessary.
-Original image can be resend using another mode without reloading.
+<p>
+    Tap "Take Picture" or "Pick Picture" menu button or
+    <br>
+    use the Share option of any app like Gallery to load an image.
+    <br>
+    <br>
+    To keep the aspect ratio, black borders will be added if necessary.
+    <br>
+    Original image can be resend using another mode without reloading.
+    <br>
+    <br>
+    After image rotation or mode changing the image
+    <br>
+    will be scaled to that mode's native size.
+    <br>
+    <br>
+    After closing the app the loaded image will not be stored.
+</p>
 
-After image rotation or mode changing the image
-will be scaled to that mode's native size.
+<h3>Text Overlay</h3>
 
-After closing the app the loaded image will not be stored.
+<p>
+    Single tap <b>to add</b> a text overlay.
+    <br>
+    Single tap on text overlay <b>to edit</b> it.
+    <br>
+    Long press <b>to move</b> text overlay.
+    <br>
+    Remove the text <b>to remove</b> a text overlay.
+    <br>
+    <br>
+    After closing the app all text overlays
+    <br>
+    will be stored and reloaded when restarting.
+</p>
 
---- Text Overlay:
+<h3>Menu</h3>
 
-Single tap <b>to add</b> a text overlay.
-Single tap on text overlay <b>to edit</b> it.
-Long press <b>to move</b> text overlay.
-Remove the text <b>to remove</b> a text overlay.
-
-After closing the app all text overlays
-will be stored and reloaded when restarting.
-
---- Menu:
-
-<ul><li><b>"Pick Picture"</b> - Opens an image viewer app to select a picture.</li>
-<li><b>"Take Picture"</b> - Starts a camera app to take a picture.</li>
-<li><b>"Save Wave File"</b> - Creates a wave file in the Music folder in SSTV Encoder album.</li>
-<li><b>"Play"</b> - Sends the image.</li>
-<li><b>"Stop"</b> - Stops the current sending and empties the queue.</li>
-<li><b>"Rotate Image"</b> - Rotates the image by 90 degrees.</li>
-<li><b>"Modes"</b> - Lists all supported modes.</li></ul>
+<ul>
+    <li><b>"Play"</b> - Sends the image.</li>
+    <li><b>"Stop"</b> - Stops the current sending and empties the queue.</li>
+    <li><b>"Pick Picture"</b> - Opens an image viewer app to select a picture.</li>
+    <li><b>"Take Picture"</b> - Starts a camera app to take a picture.</li>
+    <li><b>"Save as WAVE File"</b> - Creates a wave file in the Music folder in SSTV Encoder album.
+    </li>
+    <li><b>"Rotate Image"</b> - Rotates the image by 90 degrees.</li>
+    <li><b>"Modes"</b> - Lists all supported modes.</li>
+</ul>

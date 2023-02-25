@@ -45,6 +45,8 @@
     <string name="load_img_err_txt_unsupported">Unsupported content.</string>
     <string name="message_prev_img_not_loaded">Previous image could not be loaded.</string>
     <string name="message_no_camera">Device has no camera.</string>
+    <string name="another_activity_resolve_err">Another activity could not be resolved.</string>
+    <string name="another_activity_start_err">Another activity could not be started.</string>
     <string name="btn_send_email">Send Email</string>
     <string name="btn_ok">OK</string>
     <string name="email_subject">SSTV Encoder - Bug Report</string>

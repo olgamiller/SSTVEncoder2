@@ -391,25 +391,34 @@ public class MainActivity extends AppCompatActivity {
     public void startEditTextActivity(@NonNull Label label) {
         Intent intent = new Intent(this, EditTextActivity.class);
         intent.putExtra(EditTextActivity.EXTRA, label);
-        startActivityForResult(intent, EditTextActivity.REQUEST_CODE);
+        tryToStartActivityForResult(intent, EditTextActivity.REQUEST_CODE);
     }
 
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            Uri uri = Utility.createImageUri(this);
-            if (uri != null) {
-                mSettings.setImageUri(uri);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-            }
+        Uri uri = Utility.createImageUri(this);
+        if (uri != null) {
+            mSettings.setImageUri(uri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            tryToStartActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     private void dispatchPickPictureIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (intent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(intent, REQUEST_PICK_IMAGE);
+        tryToStartActivityForResult(intent, REQUEST_PICK_IMAGE);
+    }
+
+    private void tryToStartActivityForResult(Intent intent, int requestCode) {
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(this, R.string.another_activity_resolve_err, Toast.LENGTH_LONG).show();
+            return;
+        }
+        try {
+            startActivityForResult(intent, requestCode);
+        } catch (Exception ignore) {
+            Toast.makeText(this, R.string.another_activity_start_err, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

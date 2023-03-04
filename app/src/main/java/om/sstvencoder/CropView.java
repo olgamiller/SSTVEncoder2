@@ -182,7 +182,7 @@ public class CropView extends AppCompatImageView {
         invalidate();
     }
 
-    public void setBitmap(@NonNull InputStream stream) throws IOException, IllegalArgumentException {
+    public void setBitmap(@NonNull InputStream stream) throws Exception {
         mImageOK = false;
         mOrientation = 0;
         recycle();
@@ -190,35 +190,48 @@ public class CropView extends AppCompatImageView {
         invalidate();
     }
 
-    private void loadImage(InputStream stream) throws IOException, IllegalArgumentException {
-        // app6 + exif
-        int bufferBytes = 1048576;
-        if (!stream.markSupported())
-            stream = new BufferedInputStream(stream, bufferBytes);
-        stream.mark(bufferBytes);
+    private void loadImage(InputStream stream) throws Exception {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(new BufferedInputStream(stream), null, options);
-        stream.reset();
+        byte[] streamBytes = null;
+        String errorMessage = null;
+        try {
+            int length = stream.available();
+            if (length > 0) {
+                streamBytes = new byte[length];
+                if (length == stream.read(streamBytes, 0, streamBytes.length)) {
+                    BitmapFactory.decodeByteArray(streamBytes, 0, streamBytes.length, options);
+                }
+                else
+                    streamBytes = null;
+            }
+        } catch (Exception ex) {
+            errorMessage = ex.getMessage();
+            streamBytes = null;
+        }
+
         mImageWidth = options.outWidth;
         mImageHeight = options.outHeight;
 
-        if (mImageWidth * mImageHeight < 1024 * 1024) {
-            mCacheBitmap = BitmapFactory.decodeStream(stream);
-            mSmallImage = true;
-        } else {
-            mRegionDecoder = BitmapRegionDecoder.newInstance(stream, true);
-            mCacheRect.setEmpty();
-            mSmallImage = false;
+        if (streamBytes != null && mImageWidth > 0 && mImageHeight > 0) {
+            mSmallImage = mImageWidth * mImageHeight < 1024 * 1024;
+            if (mSmallImage) {
+                mCacheBitmap = BitmapFactory.decodeByteArray(streamBytes, 0, streamBytes.length, null);
+            } else {
+                mRegionDecoder = BitmapRegionDecoder.newInstance(streamBytes, 0, streamBytes.length, true);
+                mCacheRect.setEmpty();
+            }
         }
 
         if (mCacheBitmap == null && mRegionDecoder == null) {
-            String size = options.outWidth + "x" + options.outHeight;
-            String message = "Stream could not be decoded. Image size: " + size;
-            if (mImageWidth <= 0 || mImageHeight <= 0)
-                throw new IllegalArgumentException(message);
-            else
-                throw new IOException(message);
+            String message = errorMessage;
+            if (message == null) {
+                message = "Stream could not be decoded.";
+                if (mImageWidth > 0 && mImageHeight > 0) {
+                    message += " Image size: " + mImageWidth + "x" + mImageHeight;
+                }
+            }
+            throw new Exception(message);
         }
 
         mImageOK = true;

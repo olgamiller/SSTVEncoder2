@@ -119,41 +119,30 @@ public class MainActivity extends AppCompatActivity {
 
     // Set verbose to false for any Uri that might have expired (e.g. shared from browser).
     private boolean loadImage(Uri uri, boolean verbose) {
+        boolean succeeded = false;
         ContentResolver resolver = getContentResolver();
-        InputStream stream = null;
         if (uri != null) {
-            mSettings.setImageUri(uri);
             try {
-                stream = resolver.openInputStream(uri);
+                InputStream stream = resolver.openInputStream(uri);
+                if (stream != null)
+                    mCropView.setBitmap(stream);
+                succeeded = true;
             } catch (Exception ex) { // e.g. FileNotFoundException, SecurityException
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isPermissionException(ex)
                         && needsRequestReadPermission()) {
                     requestReadPermission(REQUEST_LOAD_IMAGE_PERMISSION);
-                    return false;
                 }
-                showFileNotLoadedMessage(ex, verbose);
+                else
+                    showFileNotLoadedMessage(ex, verbose);
             }
         }
-        if (stream == null || !loadImage(stream, resolver, uri)) {
+        if (succeeded) {
+            mCropView.rotateImage(getOrientation(resolver, uri));
+            mSettings.setImageUri(uri);
+        }
+        else
             setDefaultBitmap();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean loadImage(InputStream stream, ContentResolver resolver, Uri uri) {
-        try {
-            mCropView.setBitmap(stream);
-        } catch (IllegalArgumentException ex) {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
-            return false;
-        } catch (Exception ex) {
-            String s = Utility.createMessage(ex) + "\n\n" + uri;
-            showErrorMessage(getString(R.string.load_img_err_title), ex.getMessage(), s);
-            return false;
-        }
-        mCropView.rotateImage(getOrientation(resolver, uri));
-        return true;
+        return succeeded;
     }
 
     private void setDefaultBitmap() {

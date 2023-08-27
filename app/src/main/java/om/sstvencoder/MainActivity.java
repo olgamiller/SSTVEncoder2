@@ -332,13 +332,16 @@ public class MainActivity extends AppCompatActivity {
         else if (id == R.id.action_rotate) {
             mCropView.rotateImage(90);
         }
+        else if (id == R.id.action_reset) {
+            mCropView.resetImage();
+        }
         else if (id == R.id.action_privacy_policy) {
             showTextPage(getString(R.string.action_privacy_policy), getString(R.string.action_privacy_policy_text));
         }
         else if (id == R.id.action_about) {
             showTextPage(getString(R.string.action_about), getString(R.string.action_about_text, BuildConfig.VERSION_NAME));
         }
-        else if (id != R.id.action_modes) {
+        else if (id != R.id.action_modes && id != R.id.action_transform) {
             String className = item.getIntent().getStringExtra(CLASS_NAME);
             setMode(className);
         }

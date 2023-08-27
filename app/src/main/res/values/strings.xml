@@ -6,7 +6,9 @@
     <string name="action_save_wave">Save as WAVE File</string>
     <string name="action_stop">Stop</string>
     <string name="action_play">Play</string>
-    <string name="action_rotate">Rotate Image</string>
+    <string name="action_transform">Transform Image</string>
+    <string name="action_rotate">Rotate</string>
+    <string name="action_reset">Reset</string>
     <string name="action_done">Done</string>
     <string name="action_modes">Modes</string>
     <string name="action_martin1">Martin 1</string>

@@ -30,10 +30,22 @@
         android:title="@string/action_save_wave"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_rotate"
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:title="@string/action_rotate"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/action_transform"
+        android:title="@string/action_transform"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_rotate"
+                android:icon="@android:drawable/ic_menu_rotate"
+                android:title="@string/action_rotate"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/action_reset"
+                android:icon="@android:drawable/ic_menu_revert"
+                android:title="@string/action_reset"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_modes"
         android:title="@string/action_modes"

@@ -175,6 +175,19 @@ public class CropView extends AppCompatImageView {
         invalidate();
     }
 
+    public void resetImage() {
+        if (!mImageOK)
+            return;
+        if (mOrientation == 90 || mOrientation == 270) {
+            int tmp = mImageWidth;
+            mImageWidth = mImageHeight;
+            mImageHeight = tmp;
+        }
+        mOrientation = 0;
+        resetInputRect();
+        invalidate();
+    }
+
     public void setNoBitmap() {
         mImageOK = false;
         mOrientation = 0;

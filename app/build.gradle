@@ -6,8 +6,8 @@ android {
         applicationId "om.sstvencoder"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 29
-        versionName "2.8"
+        versionCode 30
+        versionName "2.9"
     }
     buildTypes {
         release {

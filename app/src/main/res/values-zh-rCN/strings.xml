@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SSTV编码器</string>
+    <string name="action_pick_picture">选择照片</string>
+    <string name="action_take_picture">拍摄照片</string>
+    <string name="action_save_wave">保存为波形(.wav)文件</string>
+    <string name="action_stop">停止</string>
+    <string name="action_play">播放</string>
+    <string name="action_transform">更改图片</string>
+    <string name="action_rotate">旋转</string>
+    <string name="action_reset">重置</string>
+    <string name="action_done">完成</string>
+    <string name="action_modes">编码模式</string>
+    <string name="action_privacy_policy">隐私政策</string>
+    <string name="action_privacy_policy_text">\n        SSTV编码器可以将图片转换为音频\n        \n\n为实现转换功能，图像会被暂时载入内存.\n        \n\n图像可以被缩放或者选择. 别担心，此软件内对于图像的更改不会被保存. 最后一次使用的图片的路径会保存在软件的本地存储.\n        \n\n此外你还可以在图片上附加文字信息. 它也会保存在软件的本地存储.\n        \n\n附加的文字信息也会在用户选择的模式下编码入音频中. 选中的模式也会存储在软件中.\n        \n\n生成的音频不仅可以在软件内通过按下“播放”按钮进行播放，还可以按下“保存”按钮存储在手机的存储空间.</string>
+    <string name="action_about">关于SSTV编码器</string>
+    <string name="action_about_text">"\n        SSTV Encoder %1$s\n版权所有 2017 Olga Miller\n        \n\nSSTV 编码器通过慢扫描电视/Slow Scan Television (SSTV)发送图片.\n        \n\n要获取详细信息，请参阅本软件源码: \nhttps://github.com/olgamiller/SSTVEncoder2\n        \n\nDISCLAIMER:\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.\n    "</string>
+    <string name="load_img_err_title">加载图像时出错</string>
+    <string name="load_img_orientation_err_title">定位图像时出错</string>
+    <string name="load_img_err_txt_unsupported">不受支持的内容</string>
+    <string name="message_prev_img_not_loaded">先前所使用的图像未能被加载</string>
+    <string name="message_no_camera">这个设备没有摄像头╮(╯-╰)╭</string>
+    <string name="another_activity_resolve_err">未能解析另一个活动</string>
+    <string name="another_activity_start_err">另一个活动未能被启动</string>
+    <string name="btn_send_email">发送邮件</string>
+    <string name="btn_ok">好的</string>
+    <string name="email_subject">SSTV编码器 - BUG反馈</string>
+    <string name="chooser_title">发送BUG反馈</string>
+    <string name="bold">粗体</string>
+    <string name="italic">斜体</string>
+    <string name="outline">下划线</string>
+    <string name="color">字体颜色</string>
+    <string name="outline_color">下划线颜色</string>
+    <string name="size">字体大小</string>
+    <string name="font">字体</string>
+    <string name="text">文本</string>
+</resources>

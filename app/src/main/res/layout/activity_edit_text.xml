@@ -91,7 +91,7 @@
 
             <TextView
                 android:id="@+id/text_outline_size"
-                android:text="@string/size"/>
+                android:text="@string/outline_size" />
 
             <Spinner
                 android:id="@+id/edit_outline_size"
@@ -126,7 +126,7 @@
 
             <TextView
                 android:id="@+id/text_outline_color"
-                android:text="@string/color"/>
+                android:text="@string/outline_color" />
 
             <LinearLayout
                 android:clickable="true"

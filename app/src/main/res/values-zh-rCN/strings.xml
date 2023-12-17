@@ -28,9 +28,9 @@
     <string name="bold">粗体</string>
     <string name="italic">斜体</string>
     <string name="outline">描边</string>
-    <string name="color">字体颜色</string>
+    <string name="color">颜色</string>
     <string name="outline_color">描边颜色</string>
-    <string name="size">字体大小</string>
+    <string name="size">大小</string>
     <string name="font">字体</string>
     <string name="text">文本</string>
 </resources>

@@ -36,4 +36,8 @@ class MainActivityMessenger {
             }
         });
     }
+
+    public String getString(int resId, Object... formatArgs) {
+        return mMainActivity.getString(resId, formatArgs);
+    }
 }

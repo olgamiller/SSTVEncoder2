@@ -66,7 +66,8 @@ class Encoder {
                         mode = mQueue.remove(0);
                     }
                     mode.init();
-                    mProgressBar.begin(mode.getProcessCount(), "Sending...");
+                    mProgressBar.begin(mode.getProcessCount(),
+                            mMessenger.getString(R.string.progressbar_message_sending));
 
                     while (mode.process()) {
                         mProgressBar.step();
@@ -122,7 +123,8 @@ class Encoder {
             @Override
             public void run() {
                 mode.init();
-                mProgressBar2.begin(mode.getProcessCount(), context.getFileName() + " saving...");
+                mProgressBar2.begin(mode.getProcessCount(),
+                        mMessenger.getString(R.string.progressbar_message_saving_to_file, context.getFileName()));
 
                 while (mode.process()) {
                     mProgressBar2.step();

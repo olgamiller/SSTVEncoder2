@@ -19,6 +19,8 @@
     <string name="load_img_err_txt_unsupported">不受支持的内容</string>
     <string name="message_prev_img_not_loaded">先前所使用的图像未能被加载</string>
     <string name="message_no_camera">这个设备没有摄像头</string>
+    <string name="progressbar_message_sending">发送…</string>
+    <string name="progressbar_message_saving_to_file">%1$s 保存…</string>
     <string name="another_activity_resolve_err">未能解析另一个活动</string>
     <string name="another_activity_start_err">另一个活动未能被启动</string>
     <string name="btn_send_email">发送邮件</string>

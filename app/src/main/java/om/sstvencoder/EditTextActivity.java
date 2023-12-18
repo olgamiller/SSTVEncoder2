@@ -148,7 +148,7 @@ public class EditTextActivity extends AppCompatActivity
     private void initFontFamilySpinner(String familyName) {
         Spinner spinner = findViewById(R.id.edit_font_family);
         spinner.setOnItemSelectedListener(this);
-        mFontFamilySet = new FontFamilySet();
+        mFontFamilySet = new FontFamilySet(this);
         mSelectedFontFamily = mFontFamilySet.getFontFamily(familyName);
         mFontFamilyNameList = mFontFamilySet.getFontFamilyDisplayNameList();
         spinner.setAdapter(new ArrayAdapter<>(this,
@@ -159,7 +159,13 @@ public class EditTextActivity extends AppCompatActivity
     private void initTextSizeSpinner(float textSize) {
         Spinner spinner = findViewById(R.id.edit_text_size);
         spinner.setOnItemSelectedListener(this);
-        String[] sizeList = new String[]{"Small", "Normal", "Large", "Huge"};
+        String[] sizeList = new String[]
+                {
+                        getString(R.string.font_size_small),
+                        getString(R.string.font_size_normal),
+                        getString(R.string.font_size_large),
+                        getString(R.string.font_size_huge)
+                };
         spinner.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, sizeList));
         spinner.setSelection(textSizeToPosition(textSize));
@@ -168,7 +174,12 @@ public class EditTextActivity extends AppCompatActivity
     private void initOutlineSizeSpinner(float outlineSize) {
         Spinner spinner = findViewById(R.id.edit_outline_size);
         spinner.setOnItemSelectedListener(this);
-        String[] sizeList = new String[]{"Thin", "Normal", "Thick"};
+        String[] sizeList = new String[]
+                {
+                        getString(R.string.outline_size_thin),
+                        getString(R.string.outline_size_normal),
+                        getString(R.string.outline_size_thick)
+                };
         spinner.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, sizeList));
         spinner.setSelection(outlineSizeToPosition(outlineSize));

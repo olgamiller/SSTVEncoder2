@@ -60,6 +60,14 @@
     <string name="outline_color">Color</string>
     <string name="size">Size</string>
     <string name="font">Font</string>
+    <string name="font_default">Default</string>
     <string name="text">Text</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_size_huge">Huge</string>
     <string name="outline_size">Size</string>
+    <string name="outline_size_thin">Thin</string>
+    <string name="outline_size_normal">Normal</string>
+    <string name="outline_size_thick">Thick</string>
 </resources>

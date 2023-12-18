@@ -16,6 +16,8 @@ limitations under the License.
 package om.sstvencoder;
 
 import androidx.annotation.NonNull;
+
+import android.content.Context;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -37,8 +39,10 @@ class FontFamilySet {
     }
 
     private final List<FontFamily> mFamilySet;
+    private final Context mContext;
 
-    FontFamilySet() {
+    FontFamilySet(Context context) {
+        mContext = context;
         mFamilySet = new ArrayList<>();
         fillWithSystemFonts(mFamilySet);
         if (mFamilySet.size() == 0)
@@ -49,7 +53,7 @@ class FontFamilySet {
     private FontFamily getDefaultFontFamily() {
         FontFamily defaultFontFamily = new FontFamily();
         defaultFontFamily.name = null;
-        defaultFontFamily.displayName = "Default";
+        defaultFontFamily.displayName = mContext.getString(R.string.font_default);
         defaultFontFamily.bold = true;
         defaultFontFamily.italic = true;
         return defaultFontFamily;

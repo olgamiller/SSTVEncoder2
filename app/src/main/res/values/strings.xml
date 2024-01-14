@@ -27,14 +27,6 @@
     <string name="action_robot72" translatable="false">Robot 72</string>
     <string name="action_wraaseSC2_180" translatable="false">Wraase SC2 180</string>
     <string name="action_privacy_policy">Privacy Policy</string>
-    <string name="action_privacy_policy_text">
-        SSTV Encoder converts images to audio.
-        \n\nTo convert the image, it will be loaded into temporary memory.
-        \n\nThe loaded image can be scaled and rotated. Neither the modified image nor the modifications will be stored. The link to the last loaded image will be stored in the app settings locally.
-        \n\nA text overlay can be added. It will be stored in the app settings locally.
-        \n\nThe modified image with text overlays will be encoded to audio using the selected mode. The selected mode will be stored in the app settings locally.
-        \n\nThe resulting audio can either be played back by pressing the play button or saved locally on the device by pressing the save button.
-    </string>
     <string name="action_about">About SSTV Encoder</string>
     <string name="action_about_text">
         SSTV Encoder %1$s\nCopyright 2017 Olga Miller

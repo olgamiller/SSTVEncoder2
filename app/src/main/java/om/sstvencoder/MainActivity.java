@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             mCropView.resetImage();
         }
         else if (id == R.id.action_privacy_policy) {
-            showTextPage(getString(R.string.action_privacy_policy), getString(R.string.action_privacy_policy_text));
+            openLinkInBrowser("https://sites.google.com/view/olgamiller/sstvencoder/privacypolicy/");
         }
         else if (id == R.id.action_about) {
             showTextPage(getString(R.string.action_about), getString(R.string.action_about_text, BuildConfig.VERSION_NAME));
@@ -346,6 +346,16 @@ public class MainActivity extends AppCompatActivity {
             setMode(className);
         }
         return true;
+    }
+
+    private void openLinkInBrowser(String link) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        else {
+            showErrorMessage(getString(R.string.another_activity_start_err), link, "");
+        }
     }
 
     private void showTextPage(String title, String message) {

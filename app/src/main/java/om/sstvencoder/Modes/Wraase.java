@@ -20,11 +20,12 @@ import android.graphics.Color;
 
 import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.Output.IOutput;
-import om.sstvencoder.R;
 
 @ModeSize(width = 320, height = 256)
-@ModeDescription(name = R.string.action_wraaseSC2_180)
+@ModeDescription(name = Wraase.Name)
 class Wraase extends Mode {
+    public static final String Name = "Wraase SC2 180";
+
     private final int mSyncPulseSamples;
     private final double mSyncPulseFrequency;
 

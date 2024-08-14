@@ -25,7 +25,7 @@ class ModeInfo implements IModeInfo {
         mModeClass = modeClass;
     }
 
-    public int getModeName() {
+    public String getModeName() {
         return mModeClass.getAnnotation(ModeDescription.class).name();
     }
 

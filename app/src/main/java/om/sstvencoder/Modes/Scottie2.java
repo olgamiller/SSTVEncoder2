@@ -19,11 +19,12 @@ import android.graphics.Bitmap;
 
 import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.Output.IOutput;
-import om.sstvencoder.R;
 
 @ModeSize(width = 320, height = 256)
-@ModeDescription(name = R.string.action_scottie2)
+@ModeDescription(name = Scottie2.Name)
 class Scottie2 extends Scottie {
+    public static final String Name = "Scottie 2";
+
     Scottie2(Bitmap bitmap, IOutput output){
         super(bitmap, output);
         mVISCode = 56;

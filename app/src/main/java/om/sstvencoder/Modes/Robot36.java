@@ -22,11 +22,12 @@ import om.sstvencoder.Modes.ImageFormats.YuvFactory;
 import om.sstvencoder.Modes.ImageFormats.YuvImageFormat;
 import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.Output.IOutput;
-import om.sstvencoder.R;
 
 @ModeSize(width = 320, height = 240)
-@ModeDescription(name = R.string.action_robot36)
+@ModeDescription(name = Robot36.Name)
 class Robot36 extends Mode {
+    public static final String Name = "Robot 36";
+
     private final Yuv mYuv;
 
     private final int mLumaScanSamples;

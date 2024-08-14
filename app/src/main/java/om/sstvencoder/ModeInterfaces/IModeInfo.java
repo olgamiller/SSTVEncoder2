@@ -16,7 +16,7 @@ limitations under the License.
 package om.sstvencoder.ModeInterfaces;
 
 public interface IModeInfo {
-    int getModeName();
+    String getModeName();
 
     String getModeClassName();
 

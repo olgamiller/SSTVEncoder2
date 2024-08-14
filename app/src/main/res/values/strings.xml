@@ -11,21 +11,6 @@
     <string name="action_reset">Reset</string>
     <string name="action_done">Done</string>
     <string name="action_modes">Modes</string>
-    <string name="action_martin1" translatable="false">Martin 1</string>
-    <string name="action_martin2" translatable="false">Martin 2</string>
-    <string name="action_pd50" translatable="false">PD 50</string>
-    <string name="action_pd90" translatable="false">PD 90</string>
-    <string name="action_pd120" translatable="false">PD 120</string>
-    <string name="action_pd160" translatable="false">PD 160</string>
-    <string name="action_pd180" translatable="false">PD 180</string>
-    <string name="action_pd240" translatable="false">PD 240</string>
-    <string name="action_pd290" translatable="false">PD 290</string>
-    <string name="action_scottie1" translatable="false">Scottie 1</string>
-    <string name="action_scottie2" translatable="false">Scottie 2</string>
-    <string name="action_scottie_dx" translatable="false">Scottie DX</string>
-    <string name="action_robot36" translatable="false">Robot 36</string>
-    <string name="action_robot72" translatable="false">Robot 72</string>
-    <string name="action_wraaseSC2_180" translatable="false">Wraase SC2 180</string>
     <string name="action_privacy_policy">Privacy Policy</string>
     <string name="action_about">About SSTV Encoder</string>
     <string name="action_about_text">

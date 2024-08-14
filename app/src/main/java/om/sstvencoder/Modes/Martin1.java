@@ -19,11 +19,12 @@ import android.graphics.Bitmap;
 
 import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.Output.IOutput;
-import om.sstvencoder.R;
 
 @ModeSize(width = 320, height = 256)
-@ModeDescription(name = R.string.action_martin1)
+@ModeDescription(name = Martin1.Name)
 class Martin1 extends Martin {
+    public static final String Name = "Martin 1";
+
     Martin1(Bitmap bitmap, IOutput output) {
         super(bitmap, output);
         mVISCode = 44;

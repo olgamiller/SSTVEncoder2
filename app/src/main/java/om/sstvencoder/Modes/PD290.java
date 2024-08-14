@@ -19,11 +19,12 @@ import android.graphics.Bitmap;
 
 import om.sstvencoder.ModeInterfaces.ModeSize;
 import om.sstvencoder.Output.IOutput;
-import om.sstvencoder.R;
 
 @ModeSize(width = 800, height = 616)
-@ModeDescription(name = R.string.action_pd290)
+@ModeDescription(name = PD290.Name)
 class PD290 extends PD {
+    public static final String Name = "PD 290";
+
     PD290(Bitmap bitmap, IOutput output) {
         super(bitmap, output);
         mVISCode = 94;

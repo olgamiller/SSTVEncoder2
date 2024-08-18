@@ -44,6 +44,10 @@ Available menu options:
     <li><b>"Pick Picture"</b>: Opens an image viewer app to select a picture</li>
     <li><b>"Take Picture"</b>: Starts a camera app to take a picture</li>
     <li><b>"Save as WAVE File"</b>: Creates a wave file in the Music folder in SSTV Encoder album</li>
-    <li><b>"Rotate Image"</b>: Rotates the image by 90 degrees</li>
+    <li><b>"Transform Image"</b>:</li>
+    <ul>
+        <li><b>"Rotate"</b>: Rotates the image by 90 degrees</li>
+        <li><b>"Reset"</b>: Resets image rotation and scaling</li>
+    </ul>
     <li><b>"Modes"</b>: Lists all supported modes</li>
 </ul>

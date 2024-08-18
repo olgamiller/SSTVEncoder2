@@ -44,7 +44,9 @@ Available menu options:
 * **"Pick Picture"**: Opens an image viewer app to select a picture
 * **"Take Picture"**: Starts a camera app to take a picture
 * **"Save as WAVE File"**: Creates a wave file in the Music folder in SSTV Encoder album
-* **"Rotate Image"**: Rotates the image by 90 degrees
+* **"Transform Image"**:
+  * **"Rotate"**: Rotates the image by 90 degrees
+  * **"Reset"**: Resets image rotation and scaling
 * **"Modes"**: Lists all supported modes
 
 ### Installation

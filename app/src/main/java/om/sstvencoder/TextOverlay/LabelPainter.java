@@ -22,6 +22,9 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+
+import java.io.File;
+
 import androidx.annotation.NonNull;
 
 class LabelPainter {
@@ -130,7 +133,13 @@ class LabelPainter {
 
         private void setPaintSettings(float sizeFactor) {
             mPaint.setAlpha(255);
-            mPaint.setTypeface(Typeface.create(mLabel.getFamilyName(), getTypeface()));
+            try {
+                Typeface tf = Typeface.create(
+                        createTypefaceFromFontFile(),
+                        createTypefaceFromFontAttributes());
+                mPaint.setTypeface(tf);
+            } catch (Exception ignore) {
+            }
             setTextPaintSettings();
             setSizePaintSettings(sizeFactor);
         }
@@ -151,7 +160,19 @@ class LabelPainter {
             mPaint.setStrokeWidth(mLabel.getOutlineSize() * textSize);
         }
 
-        private int getTypeface() {
+        private Typeface createTypefaceFromFontFile() {
+            Typeface typeface = null; // Typeface.DEFAULT
+            String fontFilePath = mLabel.getFamilyName();
+
+            if (!fontFilePath.equalsIgnoreCase(Label.DEFAULT_FONT)) {
+                File fontFile = new File(fontFilePath);
+                if (fontFile.exists() && fontFile.canRead())
+                    typeface = Typeface.createFromFile(fontFilePath);
+            }
+            return typeface;
+        }
+
+        private int createTypefaceFromFontAttributes() {
             int typeface = Typeface.NORMAL;
 
             if (mLabel.getBold() && mLabel.getItalic())

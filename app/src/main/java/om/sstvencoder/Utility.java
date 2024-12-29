@@ -28,10 +28,14 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 final class Utility {
+    static final String DIRECTORY_SYSTEM_FONTS = "/system/fonts";
+
     @NonNull
     static Rect getEmbeddedRect(int w, int h, int iw, int ih) {
         Rect rect;
@@ -112,5 +116,33 @@ final class Utility {
     static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    static List<String> getSystemFontFilePaths() {
+        List<String> fontList = new ArrayList<>();
+        File fontsDir = new File(DIRECTORY_SYSTEM_FONTS);
+        String fontFileExtension = ".ttf";
+
+        if (fontsDir.exists() && fontsDir.isDirectory()) {
+            File[] files = fontsDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith(fontFileExtension)) {
+                        fontList.add(file.getAbsolutePath());
+                    }
+                }
+            }
+        }
+        return fontList;
+    }
+
+    static String getFileNameWithoutExtension(String filePath) {
+        File file = new File(filePath);
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(0, dotIndex);
+        }
+        return fileName;
     }
 }

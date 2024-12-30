@@ -23,9 +23,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 
-import java.io.File;
-
 import androidx.annotation.NonNull;
+import om.sstvencoder.Utility;
 
 class LabelPainter {
     private interface IDrawer {
@@ -134,10 +133,7 @@ class LabelPainter {
         private void setPaintSettings(float sizeFactor) {
             mPaint.setAlpha(255);
             try {
-                Typeface tf = Typeface.create(
-                        createTypefaceFromFontFile(),
-                        createTypefaceFromFontAttributes());
-                mPaint.setTypeface(tf);
+                mPaint.setTypeface(createTypeface());
             } catch (Exception ignore) {
             }
             setTextPaintSettings();
@@ -160,30 +156,22 @@ class LabelPainter {
             mPaint.setStrokeWidth(mLabel.getOutlineSize() * textSize);
         }
 
-        private Typeface createTypefaceFromFontFile() {
-            Typeface typeface = null; // Typeface.DEFAULT
-            String fontFilePath = mLabel.getFamilyName();
-
-            if (!fontFilePath.equalsIgnoreCase(Label.DEFAULT_FONT)) {
-                File fontFile = new File(fontFilePath);
-                if (fontFile.exists() && fontFile.canRead())
-                    typeface = Typeface.createFromFile(fontFilePath);
-            }
-            return typeface;
-        }
-
-        private int createTypefaceFromFontAttributes() {
-            int typeface = Typeface.NORMAL;
+        private Typeface createTypeface() {
+            int style = Typeface.NORMAL;
 
             if (mLabel.getBold() && mLabel.getItalic())
-                typeface = Typeface.BOLD_ITALIC;
+                style = Typeface.BOLD_ITALIC;
             else {
                 if (mLabel.getBold())
-                    typeface = Typeface.BOLD;
+                    style = Typeface.BOLD;
                 else if (mLabel.getItalic())
-                    typeface = Typeface.ITALIC;
+                    style = Typeface.ITALIC;
             }
-            return typeface;
+
+            String fontFilePath = Utility.getFontFilePath(mLabel.getFamilyName(), style);
+            Typeface family = Typeface.createFromFile(fontFilePath);
+
+            return Typeface.create(family, style);
         }
     }
 

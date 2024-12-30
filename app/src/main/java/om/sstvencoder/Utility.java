@@ -18,7 +18,10 @@ package om.sstvencoder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+
 import androidx.exifinterface.media.ExifInterface;
+
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -33,8 +36,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-final class Utility {
-    static final String DIRECTORY_SYSTEM_FONTS = "/system/fonts";
+public final class Utility {
+    private static final String DIRECTORY_SYSTEM_FONTS = "/system/fonts";
+    private static final String DEFAULT_FONT_FAMILY = "Default";
 
     @NonNull
     static Rect getEmbeddedRect(int w, int h, int iw, int ih) {
@@ -118,31 +122,93 @@ final class Utility {
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    static List<String> getSystemFontFilePaths() {
-        List<String> fontList = new ArrayList<>();
+    static List<String> getSystemFontFamilyList() {
+        List<String> fontFamilyNameList = new ArrayList<>();
         File fontsDir = new File(DIRECTORY_SYSTEM_FONTS);
-        String fontFileExtension = ".ttf";
 
         if (fontsDir.exists() && fontsDir.isDirectory()) {
             File[] files = fontsDir.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile() && file.getName().endsWith(fontFileExtension)) {
-                        fontList.add(file.getAbsolutePath());
+                    String fileName = file.getName();
+                    if (file.isFile() && isSupportedFontFileFormat(fileName)) {
+                        String fontFamilyName = getFontFamilyName(fileName);
+                        if (!fontFamilyNameList.contains(fontFamilyName))
+                            fontFamilyNameList.add(fontFamilyName);
                     }
                 }
             }
         }
-        return fontList;
+
+        fontFamilyNameList.add(0, Utility.DEFAULT_FONT_FAMILY);
+        return fontFamilyNameList;
     }
 
-    static String getFileNameWithoutExtension(String filePath) {
-        File file = new File(filePath);
-        String fileName = file.getName();
-        int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            return fileName.substring(0, dotIndex);
+    private static boolean isSupportedFontFileFormat(String fileName) {
+        return fileName.endsWith(".ttf") || fileName.endsWith(".otf");
+    }
+
+    private static String getFontFamilyName(String fileName) {
+        String fontFamilyName = fileName;
+        int lastIndex = fileName.length() - 1;
+
+        int charIndex = fileName.indexOf('-');
+        if (0 < charIndex && charIndex < lastIndex) {
+            fontFamilyName = fileName.substring(0, charIndex);
+        } else {
+            charIndex = fileName.lastIndexOf('.');
+            if (0 < charIndex && charIndex < lastIndex) {
+                fontFamilyName = fileName.substring(0, charIndex);
+            }
         }
-        return fileName;
+        return fontFamilyName;
+    }
+
+    public static String getFontFilePath(String fontFamilyName, int style) {
+        List<String> fontFamilyFilePathList = getFontFamilyFilePathList(fontFamilyName);
+        String fontFilePath = fontFamilyFilePathList.get(0);
+
+        String styleString = getFontFileStyleString(style);
+        if (!styleString.isEmpty()) {
+            for (String path : fontFamilyFilePathList) {
+                if (path.contains(styleString)) {
+                    fontFilePath = path;
+                    break;
+                }
+            }
+        }
+        return fontFilePath;
+    }
+
+    private static List<String> getFontFamilyFilePathList(String fontFamilyName) {
+        List<String> fontFamilyFilePathList = new ArrayList<>();
+        File fontsDir = new File(DIRECTORY_SYSTEM_FONTS);
+
+        if (fontsDir.exists() && fontsDir.isDirectory()) {
+            File[] files = fontsDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        String path = file.getAbsolutePath();
+                        if (path.contains(fontFamilyName)) {
+                            fontFamilyFilePathList.add(path);
+                        }
+                    }
+                }
+            }
+        }
+        return fontFamilyFilePathList;
+    }
+
+    private static String getFontFileStyleString(int style) {
+        if (style == Typeface.NORMAL)
+            return "-Regular";
+        if (style == Typeface.BOLD_ITALIC)
+            return "-BoldItalic";
+        if (style == Typeface.BOLD)
+            return "-Bold";
+        if (style == Typeface.ITALIC)
+            return "-Italic";
+        return "";
     }
 }

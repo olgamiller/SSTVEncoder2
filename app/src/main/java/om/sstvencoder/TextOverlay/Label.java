@@ -24,7 +24,6 @@ import java.lang.reflect.Modifier;
 public class Label implements Serializable {
     public static final float TEXT_SIZE_NORMAL = 2f;
     public static final float OUTLINE_SIZE_NORMAL = 0.05f;
-    public static final String DEFAULT_FONT = "Default";
     private String mText;
     private float mTextSize, mOutlineSize;
     private String mFamilyName;

@@ -37,7 +37,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import om.sstvencoder.TextOverlay.Label;
@@ -55,7 +54,7 @@ public class EditTextActivity extends AppCompatActivity
     public static final String EXTRA = "EDIT_TEXT_EXTRA";
     private Label mLabel;
     private EditColorMode mEditColor;
-    private List<String> mFontFilePathList;
+    private List<String> mFontFamilyNameList;
     private CheckBox mEditItalic, mEditBold, mEditOutline;
     private int mClearTextButtonWidth;
 
@@ -148,20 +147,10 @@ public class EditTextActivity extends AppCompatActivity
     private void initFontFamilySpinner(String familyName) {
         Spinner spinner = findViewById(R.id.edit_font_family);
         spinner.setOnItemSelectedListener(this);
-        mFontFilePathList = Utility.getSystemFontFilePaths();
-        mFontFilePathList.add(0, Label.DEFAULT_FONT);
-        List<String> fontFamilyNameList = getFontNames(mFontFilePathList);
+        mFontFamilyNameList = Utility.getSystemFontFamilyList();
         spinner.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, fontFamilyNameList));
-        spinner.setSelection(mFontFilePathList.indexOf(familyName));
-    }
-
-    private static List<String> getFontNames(List<String> fontFilePathList) {
-        List<String> fontNameList = new ArrayList<>();
-        for (String path : fontFilePathList) {
-            fontNameList.add(Utility.getFileNameWithoutExtension(path));
-        }
-        return fontNameList;
+                android.R.layout.simple_spinner_dropdown_item, mFontFamilyNameList));
+        spinner.setSelection(mFontFamilyNameList.indexOf(familyName));
     }
 
     private void initTextSizeSpinner(float textSize) {
@@ -227,7 +216,7 @@ public class EditTextActivity extends AppCompatActivity
             mLabel.setOutlineSize(positionToOutlineSize(position));
         }
         else if (parentId == R.id.edit_font_family) {
-            mLabel.setFamilyName(mFontFilePathList.get(position));
+            mLabel.setFamilyName(mFontFamilyNameList.get(position));
         }
     }
 

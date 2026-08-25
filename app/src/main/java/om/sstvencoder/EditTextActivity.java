@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -66,6 +67,27 @@ public class EditTextActivity extends AppCompatActivity
         mEditBold = findViewById(R.id.edit_bold);
         mEditItalic = findViewById(R.id.edit_italic);
         mEditOutline = findViewById(R.id.edit_outline);
+
+        // opt out of edge-to-edge enforcement on top
+        // for the version 35, see res/values-v35/styles.xml
+        if (android.os.Build.VERSION.SDK_INT > 35) {
+            View root = findViewById(android.R.id.content);
+
+            root.setOnApplyWindowInsetsListener((view, insets) -> {
+                int topInset = insets.getInsets(
+                        WindowInsets.Type.statusBars()
+                ).top;
+
+                view.setPadding(
+                        view.getPaddingLeft(),
+                        topInset,
+                        view.getPaddingRight(),
+                        view.getPaddingBottom()
+                );
+
+                return insets;
+            });
+        }
     }
 
     @Override

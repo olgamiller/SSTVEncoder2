@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_pick_picture">Wybierz zdjęcie</string>
+    <string name="action_take_picture">Zrób zdjęcie</string>
+    <string name="action_save_wave">Zapisz jako plik WAVE</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_play">Odtwórz</string>
+    <string name="action_transform">Przekształć obraz</string>
+    <string name="action_rotate">Obróć</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_done">Zrobione</string>
+    <string name="action_modes">Tryby</string>
+    <string name="action_privacy_policy">Polityka prywatności</string>
+    <string name="action_about">O SSTV Encoder</string>
+    <string name="action_about_text">
+        SSTV Encoder %1$s\nCopyright 2017 Olga Miller
+        \n\nSSTV Encoder sends images via Slow Scan Television (SSTV).
+        \n\nFor more info, see open source code: \nhttps://github.com/olgamiller/SSTVEncoder2
+        \n\nDISCLAIMER:\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    </string>
+    <string name="load_img_err_title">Błąd wczytywania obrazu</string>
+    <string name="load_img_orientation_err_title">Błąd orientacji obrazu</string>
+    <string name="load_img_err_txt_unsupported">Nieobsługiwana zawartość.</string>
+    <string name="message_prev_img_not_loaded">Poprzedni obraz nie mógł zostać wczytany.</string>
+    <string name="message_no_camera">Urządzenie nie ma aparatu.</string>
+    <string name="progressbar_message_sending">Wysyłanie…</string>
+    <string name="progressbar_message_saving_to_file">%1$s zapisywanie…</string>
+    <string name="another_activity_resolve_err">Nie udało się rozwiązać innego działania.</string>
+    <string name="another_activity_start_err">Nie można rozpocząć innego działania.</string>
+    <string name="btn_send_email">Wyślij Email</string>
+    <string name="btn_ok">OK</string>
+    <string name="email_subject">SSTV Encoder - Zgłoś błąd</string>
+    <string name="chooser_title">Wyślij Raport błędu:</string>
+    <string name="bold">Pogrubienie</string>
+    <string name="italic">Kursywa</string>
+    <string name="outline">Obrys</string>
+    <string name="color">Kolor</string>
+    <string name="outline_color">Kolor</string>
+    <string name="size">Rozmiar</string>
+    <string name="font">Czcionka</string>
+    <string name="font_default">Domyślna</string>
+    <string name="text">Tekst</string>
+    <string name="font_size_small">Mała</string>
+    <string name="font_size_normal">Normalna</string>
+    <string name="font_size_large">Duża</string>
+    <string name="font_size_huge">Ogromna</string>
+    <string name="outline_size">Rozmiar</string>
+    <string name="outline_size_thin">Cienki</string>
+    <string name="outline_size_normal">Normalny</string>
+    <string name="outline_size_thick">Gruby</string>
+</resources>
